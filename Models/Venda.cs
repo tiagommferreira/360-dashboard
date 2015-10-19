@@ -5,23 +5,21 @@ using System.Web;
 
 namespace SINF_EXAMPLE_WS.Models
 {
-    public class Compra
+    public class Venda
     {
-
-        
         public string TipoDoc
         {
             get;
             set;
         }
 
-        public string TipoEntidade
+        public string Entidade
         {
             get;
             set;
         }
 
-        public double TotalMerc
+        public int NumDoc
         {
             get;
             set;
@@ -45,51 +43,60 @@ namespace SINF_EXAMPLE_WS.Models
             set;
         }
 
-        public double TotalDespesasAdicionais
+        public DateTime Data
         {
             get;
             set;
         }
-        public int NumDoc
-        {
-            get;
-            set;
-        }
-        public string Entidade
-        {
-            get;
-            set;
-        }
-        public DateTime DataIntroducao
-        {
-            get;
-            set;
-        }
+
         public string Descricao
         {
             get;
             set;
         }
-        public string NumDocExterno
+
+        public double TotalMerc
         {
             get;
             set;
         }
+
         public string Serie
         {
             get;
             set;
         }
-        public double TotalEcoTaxa
+
+        public string Nome
         {
             get;
             set;
         }
-        public DateTime DataDoc
+
+        public double TotalEcotaxa
         {
             get;
             set;
         }
+
+        public double TotalIEC
+        {
+            get;
+            set;
+        }
+        /*
+        public var Adiantamento
+        {
+            get;
+            set;
+        }
+        */
+        public string TipoEntidade
+        {
+            get;
+            set;
+        }
+
         public bool Anulado
         {
             get;

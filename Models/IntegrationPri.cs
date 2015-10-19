@@ -204,6 +204,96 @@ namespace SINF_EXAMPLE_WS.Models
 
             return null;
         }
+
+        #endregion
+
+
+        #region Vendas
+
+        public static List<Venda> ListaVendas()
+        {
+            StdBELista objList;
+
+            List<Venda> listVendas = new List<Venda>();
+
+            if (PriEngine.InitializeCompany(SINF_EXAMPLE_WS.Properties.Settings.Default.Company.Trim(), SINF_EXAMPLE_WS.Properties.Settings.Default.User.Trim(), SINF_EXAMPLE_WS.Properties.Settings.Default.Password.Trim()) == true)
+            {
+
+                objList = PriEngine.Engine.Consulta("SELECT \"CabecDoc\".\"TipoDoc\", \"CabecDoc\".\"Entidade\", \"CabecDoc\".\"NumDoc\", \"CabecDoc\".\"TotalIva\", \"CabecDoc\".\"TotalDesc\", \"CabecDoc\".\"TotalOutros\", \"CabecDoc\".\"Data\", \"DocumentosVenda\".\"Descricao\", \"CabecDoc\".\"TotalMerc\", \"CabecDoc\".\"Serie\", \"CabecDoc\".\"Nome\", \"CabecDoc\".\"Cambio\", \"CabecDoc\".\"CambioMBase\", \"CabecDoc\".\"CambioMAlt\", \"CabecDoc\".\"TotalEcotaxa\", \"CabecDoc\".\"TotalIEC\", \"EstadosConta\".\"Adiantamento\", \"CabecDoc\".\"TipoEntidade\", \"CabecDocStatus\".\"Anulado\" FROM   ((\"CabecDoc\" \"CabecDoc\" INNER JOIN \"DocumentosVenda\" \"DocumentosVenda\" ON \"CabecDoc\".\"TipoDoc\"=\"DocumentosVenda\".\"Documento\") INNER JOIN \"CabecDocStatus\" \"CabecDocStatus\" ON \"CabecDoc\".\"Id\"=\"CabecDocStatus\".\"IdCabecDoc\") LEFT OUTER JOIN \"EstadosConta\" \"EstadosConta\" ON (\"DocumentosVenda\".\"TipoConta\"=\"EstadosConta\".\"TipoConta\") AND (\"DocumentosVenda\".\"Estado\"=\"EstadosConta\".\"Estado\") WHERE  (\"CabecDoc\".\"TipoDoc\"=N'AVE' OR \"CabecDoc\".\"TipoDoc\"=N'FA' OR \"CabecDoc\".\"TipoDoc\"=N'GR' OR \"CabecDoc\".\"TipoDoc\"=N'NC' OR \"CabecDoc\".\"TipoDoc\"=N'VD') AND (\"CabecDoc\".\"Data\">= '2014-01-01 00:00:00' AND \"CabecDoc\".\"Data\"< '2015-10-20 00:00:00') AND \"CabecDocStatus\".\"Anulado\"=0 AND (\"CabecDoc\".\"Serie\"=N'A' OR \"CabecDoc\".\"Serie\"=N'C') ORDER BY \"CabecDoc\".\"TipoDoc\", \"CabecDoc\".\"NumDoc\"");
+
+                while (!objList.NoFim())
+                {
+
+                    listVendas.Add(new Venda
+                    {
+                        TipoDoc = objList.Valor("TipoDoc"),
+                        Entidade = objList.Valor("Entidade"),
+                        NumDoc = objList.Valor("NumDoc"),
+                        TotalIva = objList.Valor("TotalIva"),
+                        TotalDesc = objList.Valor("TotalDesc"),
+                        TotalOutros = objList.Valor("TotalOutros"),
+                        Data = objList.Valor("Data"),
+                        Descricao = objList.Valor("Descricao"),
+                        TotalMerc = objList.Valor("TotalMerc"),
+                        Serie = objList.Valor("Serie"),
+                        Nome = objList.Valor("Nome"),
+                        TotalEcotaxa = objList.Valor("TotalEcotaxa"),
+                        TotalIEC = objList.Valor("TotalIEC"),
+                        //Adiantamento = objList.Valor("Adiantamento"),
+                        TipoEntidade = objList.Valor("TipoEntidade"),
+                        Anulado = objList.Valor("Anulado")
+                    });
+
+
+                    objList.Seguinte();
+
+                }
+
+                return listVendas;
+            }
+            else
+                return null;
+        }
+
+        public static Venda GetVenda(string id)
+        {
+            StdBELista objList;
+
+            Venda venda = new Venda();
+
+            if (PriEngine.InitializeCompany(SINF_EXAMPLE_WS.Properties.Settings.Default.Company.Trim(), SINF_EXAMPLE_WS.Properties.Settings.Default.User.Trim(), SINF_EXAMPLE_WS.Properties.Settings.Default.Password.Trim()) == true)
+            {
+
+                objList = PriEngine.Engine.Consulta("SELECT \"CabecDoc\".\"TipoDoc\", \"CabecDoc\".\"Entidade\", \"CabecDoc\".\"NumDoc\", \"CabecDoc\".\"TotalIva\", \"CabecDoc\".\"TotalDesc\", \"CabecDoc\".\"TotalOutros\", \"CabecDoc\".\"Data\", \"DocumentosVenda\".\"Descricao\", \"CabecDoc\".\"TotalMerc\", \"CabecDoc\".\"Serie\", \"CabecDoc\".\"Nome\", \"CabecDoc\".\"Cambio\", \"CabecDoc\".\"CambioMBase\", \"CabecDoc\".\"CambioMAlt\", \"CabecDoc\".\"TotalEcotaxa\", \"CabecDoc\".\"TotalIEC\", \"EstadosConta\".\"Adiantamento\", \"CabecDoc\".\"TipoEntidade\", \"CabecDocStatus\".\"Anulado\" FROM   ((\"CabecDoc\" \"CabecDoc\" INNER JOIN \"DocumentosVenda\" \"DocumentosVenda\" ON \"CabecDoc\".\"TipoDoc\"=\"DocumentosVenda\".\"Documento\") INNER JOIN \"CabecDocStatus\" \"CabecDocStatus\" ON \"CabecDoc\".\"Id\"=\"CabecDocStatus\".\"IdCabecDoc\") LEFT OUTER JOIN \"EstadosConta\" \"EstadosConta\" ON (\"DocumentosVenda\".\"TipoConta\"=\"EstadosConta\".\"TipoConta\") AND (\"DocumentosVenda\".\"Estado\"=\"EstadosConta\".\"Estado\") WHERE (\"CabecDoc\".\"NumDoc\" = '" + id + "') AND (\"CabecDoc\".\"TipoDoc\"=N'AVE' OR \"CabecDoc\".\"TipoDoc\"=N'FA' OR \"CabecDoc\".\"TipoDoc\"=N'GR' OR \"CabecDoc\".\"TipoDoc\"=N'NC' OR \"CabecDoc\".\"TipoDoc\"=N'VD') AND (\"CabecDoc\".\"Data\">= '2014-01-01 00:00:00' AND \"CabecDoc\".\"Data\"< '2015-10-20 00:00:00') AND \"CabecDocStatus\".\"Anulado\"=0 AND (\"CabecDoc\".\"Serie\"=N'A' OR \"CabecDoc\".\"Serie\"=N'C') ORDER BY \"CabecDoc\".\"TipoDoc\", \"CabecDoc\".\"NumDoc\"");
+
+                if (!objList.Vazia())
+                {
+                    venda.TipoDoc = objList.Valor("TipoDoc");
+                    venda.Entidade = objList.Valor("Entidade");
+                    venda.NumDoc = objList.Valor("NumDoc");
+                    venda.TotalIva = objList.Valor("TotalIva");
+                    venda.TotalDesc = objList.Valor("TotalDesc");
+                    venda.TotalOutros = objList.Valor("TotalOutros");
+                    venda.Data = objList.Valor("Data");
+                    venda.Descricao = objList.Valor("Descricao");
+                    venda.TotalMerc = objList.Valor("TotalMerc");
+                    venda.Serie = objList.Valor("Serie");
+                    venda.Nome = objList.Valor("Nome");
+                    venda.TotalEcotaxa = objList.Valor("TotalEcotaxa");
+                    venda.TotalIEC = objList.Valor("TotalIEC");
+                    //Adiantamento = objList.Valor("Adiantamento"),
+                    venda.TipoEntidade = objList.Valor("TipoEntidade");
+                    venda.Anulado = objList.Valor("Anulado");
+
+                    return venda;
+                }
+
+
+            }
+
+            return null;
+        }
+
         #endregion
     }
 }
