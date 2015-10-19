@@ -119,5 +119,91 @@ namespace SINF_EXAMPLE_WS.Models
         }
 
         #endregion  
+    
+        #region Compras
+            
+        public static List<Compra> ListaCompras()
+        {
+            StdBELista objList;
+
+            List<Compra> listCompras = new List<Compra>();
+
+            if (PriEngine.InitializeCompany(SINF_EXAMPLE_WS.Properties.Settings.Default.Company.Trim(), SINF_EXAMPLE_WS.Properties.Settings.Default.User.Trim(), SINF_EXAMPLE_WS.Properties.Settings.Default.Password.Trim()) == true)
+            {
+
+                objList = PriEngine.Engine.Consulta(" SELECT \"CabecCompras\".\"TipoDoc\", \"CabecCompras\".\"TipoEntidade\", \"CabecCompras\".\"TotalMerc\", \"CabecCompras\".\"TotalIva\", \"CabecCompras\".\"TotalDesc\", \"CabecCompras\".\"TotalOutros\", \"CabecCompras\".\"TotalDespesasAdicionais\", \"CabecCompras\".\"NumDoc\", \"CabecCompras\".\"Entidade\", \"CabecCompras\".\"DataIntroducao\", \"DocumentosCompra\".\"Descricao\", \"CabecCompras\".\"NumDocExterno\", \"CabecCompras\".\"Serie\", \"CabecCompras\".\"Cambio\", \"CabecCompras\".\"CambioMBase\", \"CabecCompras\".\"CambioMAlt\", \"CabecCompras\".\"TotalEcotaxa\", \"CabecCompras\".\"TotalIEC\", \"CabecCompras\".\"DataDoc\", \"CabecCompras\".\"TipoEntidade\", \"CabecComprasStatus\".\"Anulado\" FROM   (\"CabecComprasStatus\" \"CabecComprasStatus\" INNER JOIN \"CabecCompras\" \"CabecCompras\" ON \"CabecComprasStatus\".\"IdCabecCompras\"=\"CabecCompras\".\"Id\") INNER JOIN \"DocumentosCompra\" \"DocumentosCompra\" ON \"CabecCompras\".\"TipoDoc\"=\"DocumentosCompra\".\"Documento\" WHERE  (\"CabecCompras\".\"TipoDoc\"=N'VFA' OR \"CabecCompras\".\"TipoDoc\"=N'VFP' OR \"CabecCompras\".\"TipoDoc\"=N'VFR' OR \"CabecCompras\".\"TipoDoc\"=N'VGR' OR \"CabecCompras\".\"TipoDoc\"=N'VNC' OR \"CabecCompras\".\"TipoDoc\"=N'VVD') AND (\"CabecCompras\".\"DataDoc\">='2014-01-01 00:00:00' AND \"CabecCompras\".\"DataDoc\"<'2015-10-20 00:00:00') AND \"CabecComprasStatus\".\"Anulado\"=0 AND \"CabecCompras\".\"Serie\"=N'A' ORDER BY \"CabecCompras\".\"TipoDoc\", \"CabecCompras\".\"NumDoc\"");
+
+                while (!objList.NoFim())
+                {
+
+                    listCompras.Add(new Compra
+                    {
+                        TipoDoc = objList.Valor("TipoDoc"),
+                        TipoEntidade = objList.Valor("TipoEntidade"),
+                        TotalMerc = objList.Valor("TotalMerc"),
+                        TotalIva = objList.Valor("TotalIva"),
+                        TotalDesc = objList.Valor("TotalDesc"),
+                        TotalOutros = objList.Valor("TotalOutros"),
+                        TotalDespesasAdicionais = objList.Valor("TotalDespesasAdicionais"),
+                        NumDoc = objList.Valor("NumDoc"),
+                        Entidade = objList.Valor("Entidade"),
+                        DataIntroducao = objList.Valor("DataIntroducao"),
+                        Descricao = objList.Valor("Descricao"),
+                        NumDocExterno = objList.Valor("NumDocExterno"),
+                        Serie = objList.Valor("Serie"),
+                        TotalEcoTaxa = objList.Valor("TotalEcoTaxa"),
+                        DataDoc = objList.Valor("DataDoc"),
+                        Anulado = objList.Valor("Anulado"),
+                    });
+
+
+                    objList.Seguinte();
+
+                }
+
+                return listCompras;
+            }
+            else
+                return null;
+        }
+
+        public static Compra GetCompra(string id)
+        {
+            StdBELista objList;
+
+            Compra compra = new Compra();
+
+            if (PriEngine.InitializeCompany(SINF_EXAMPLE_WS.Properties.Settings.Default.Company.Trim(), SINF_EXAMPLE_WS.Properties.Settings.Default.User.Trim(), SINF_EXAMPLE_WS.Properties.Settings.Default.Password.Trim()) == true)
+            {
+
+                objList = PriEngine.Engine.Consulta(" SELECT \"CabecCompras\".\"TipoDoc\", \"CabecCompras\".\"TipoEntidade\", \"CabecCompras\".\"TotalMerc\", \"CabecCompras\".\"TotalIva\", \"CabecCompras\".\"TotalDesc\", \"CabecCompras\".\"TotalOutros\", \"CabecCompras\".\"TotalDespesasAdicionais\", \"CabecCompras\".\"NumDoc\", \"CabecCompras\".\"Entidade\", \"CabecCompras\".\"DataIntroducao\", \"DocumentosCompra\".\"Descricao\", \"CabecCompras\".\"NumDocExterno\", \"CabecCompras\".\"Serie\", \"CabecCompras\".\"Cambio\", \"CabecCompras\".\"CambioMBase\", \"CabecCompras\".\"CambioMAlt\", \"CabecCompras\".\"TotalEcotaxa\", \"CabecCompras\".\"TotalIEC\", \"CabecCompras\".\"DataDoc\", \"CabecCompras\".\"TipoEntidade\", \"CabecComprasStatus\".\"Anulado\" FROM   (\"CabecComprasStatus\" \"CabecComprasStatus\" INNER JOIN \"CabecCompras\" \"CabecCompras\" ON \"CabecComprasStatus\".\"IdCabecCompras\"=\"CabecCompras\".\"Id\") INNER JOIN \"DocumentosCompra\" \"DocumentosCompra\" ON \"CabecCompras\".\"TipoDoc\"=\"DocumentosCompra\".\"Documento\" WHERE  (\"CabecCompras\".\"TipoDoc\"=N'VFA' OR \"CabecCompras\".\"TipoDoc\"=N'VFP' OR \"CabecCompras\".\"TipoDoc\"=N'VFR' OR \"CabecCompras\".\"TipoDoc\"=N'VGR' OR \"CabecCompras\".\"TipoDoc\"=N'VNC' OR \"CabecCompras\".\"TipoDoc\"=N'VVD') AND (\"CabecCompras\".\"DataDoc\">='2014-01-01 00:00:00' AND \"CabecCompras\".\"DataDoc\"<'2015-10-20 00:00:00') AND \"CabecComprasStatus\".\"Anulado\"=0 AND \"CabecCompras\".\"Serie\"=N'A' AND \"CabecCompras\".\"NumDoc\"=" + id + " ORDER BY \"CabecCompras\".\"TipoDoc\", \"CabecCompras\".\"NumDoc\"");
+
+                if (!objList.Vazia())
+                {
+                    compra.TipoDoc = objList.Valor("TipoDoc");
+                    compra.TipoEntidade = objList.Valor("TipoEntidade");
+                    compra.TotalMerc = objList.Valor("TotalMerc");
+                    compra.TotalIva = objList.Valor("TotalIva");
+                    compra.TotalDesc = objList.Valor("TotalDesc");
+                    compra.TotalOutros = objList.Valor("TotalOutros");
+                    compra.TotalDespesasAdicionais = objList.Valor("TotalDespesasAdicionais");
+                    compra.NumDoc = objList.Valor("NumDoc");
+                    compra.Entidade = objList.Valor("Entidade");
+                    compra.DataIntroducao = objList.Valor("DataIntroducao");
+                    compra.Descricao = objList.Valor("Descricao");
+                    compra.NumDocExterno = objList.Valor("NumDocExterno");
+                    compra.Serie = objList.Valor("Serie");
+                    compra.TotalEcoTaxa = objList.Valor("TotalEcoTaxa");
+                    compra.DataDoc = objList.Valor("DataDoc");
+                    compra.Anulado = objList.Valor("Anulado");
+                    return compra;
+                }
+
+
+            }
+
+            return null;
+        }
+        #endregion
     }
 }
