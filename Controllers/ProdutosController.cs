@@ -15,8 +15,22 @@ namespace SINF_EXAMPLE_WS.Controllers
 
         public IEnumerable<Produto> Get()
         {
-            return null;
-            //return IntegrationPri.ListaProdutos();
+            return IntegrationPri.ListaProdutos();
         }
+
+        // GET api/produto/5    
+        public Produto Get(string id)
+        {
+            Produto artigo = IntegrationPri.GetProduto(id);
+            if (artigo == null)
+            {
+                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
+            }
+            else
+            {
+                return artigo;
+            }
+        }
+
     }
 }

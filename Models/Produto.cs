@@ -25,6 +25,12 @@ namespace SINF_EXAMPLE_WS.Models
             set;
         }
 
+        public string Moeda
+        {
+            get;
+            set;
+        }
+
         public double PVP1
         {
             get;
