@@ -6,31 +6,30 @@ using System.Net.Http;
 using System.Web.Http;
 using SINF_EXAMPLE_WS.Models;
 
+
 namespace SINF_EXAMPLE_WS.Controllers
 {
-    public class ProdutosController : ApiController
+    public class VendasController : ApiController
     {
-        //
-        // GET: /Produtos/
+        // GET: /Vendas/
 
-        public IEnumerable<Produto> Get()
+        public IEnumerable<Venda> Get()
         {
-            return IntegrationPri.ListaProdutos();
+            return IntegrationPri.ListaVendas();
         }
 
-        // GET api/Produtos/5    
-        public Produto Get(string id)
+        // GET api/Vendas/5   
+        public Venda Get(string id)
         {
-            Produto artigo = IntegrationPri.GetProduto(id);
-            if (artigo == null)
+            Venda venda = IntegrationPri.GetVenda(id);
+            if (venda == null)
             {
                 throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
             }
             else
             {
-                return artigo;
+                return venda;
             }
         }
-
     }
 }
