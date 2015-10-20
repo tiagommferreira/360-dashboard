@@ -299,7 +299,43 @@ namespace SINF_EXAMPLE_WS.Models
 
         public static List<Transacao> ListaTransacoes()
         {
-            return null;
+
+            string query = "SELECT Funcionarios.Codigo AS FuncCodigo, Funcionarios.Nome AS FuncNome, FuncFormasPagamento.Moeda AS PagamentoMoeda, FuncFormasPagamento.ContaEmpresa AS PagamentoContaEmpresa,FuncFormasPagamento.Percentagem AS PagamentoPercentagem,FuncFormasPagamento.ModoPagTesouraria AS PagamentoModoPagamento,Pagamentos.DataEfectiva AS PagamentoData,Pagamentos.ValorLiquido AS PagamentoValorLiquido  FROM Pagamentos, FuncFormasPagamento INNER JOIN Funcionarios ON Funcionarios.Codigo=FuncFormasPagamento.Funcionario WHERE Activo = 1 and Pagamentos.Funcionario=Funcionarios.Codigo";
+
+            StdBELista objList;
+
+            List<Transacao> listTransacoes = new List<Transacao>();
+
+            if (PriEngine.InitializeCompany(SINF_EXAMPLE_WS.Properties.Settings.Default.Company.Trim(), SINF_EXAMPLE_WS.Properties.Settings.Default.User.Trim(), SINF_EXAMPLE_WS.Properties.Settings.Default.Password.Trim()) == true)
+            {
+
+                objList = PriEngine.Engine.Consulta(query);
+
+                while (!objList.NoFim())
+                {
+
+                    listTransacoes.Add(new Transacao
+                    {
+                        FuncCodigo = objList.Valor("FuncCodigo"),
+                        FuncNome = objList.Valor("FuncNome"),
+                        PagamentoMoeda = objList.Valor("PagamentoMoeda"),
+                        PagamentoContaEmpresa = objList.Valor("PagamentoContaEmpresa"),
+                        PagamentoPercentagem = objList.Valor("PagamentoPercentagem"),
+                        PagamentoModoPagamento = objList.Valor("PagamentoModoPagamento"),
+                       // TODO:  PagamentoData = (DateTime) objList.Valor("PagamentoData"),
+                        PagamentoValorLiquido = objList.Valor("PagamentoValorLiquido"),
+                        
+                    });
+
+
+                    objList.Seguinte();
+
+                }
+
+                return listTransacoes;
+            }
+            else
+                return null;
         }
 
         public static Transacao GetTransacao(string id)
