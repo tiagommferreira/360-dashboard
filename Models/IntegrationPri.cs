@@ -207,7 +207,6 @@ namespace SINF_EXAMPLE_WS.Models
 
         #endregion
 
-
         #region Vendas
 
         public static List<Venda> ListaVendas()
@@ -295,5 +294,20 @@ namespace SINF_EXAMPLE_WS.Models
         }
 
         #endregion
+
+        #region Transacoes
+
+        public static List<Transacao> ListaTransacoes()
+        {
+            return null;
+        }
+
+        public static Transacao GetTransacao(string id)
+        {
+            return null;
+        }
+
+        #endregion
+
     }
 }
