@@ -9,10 +9,17 @@ namespace SINF_EXAMPLE_WS
     {
         public static void Register(HttpConfiguration config)
         {
+            
+            config.Routes.MapHttpRoute(
+                name: "InvoicesApiRoute",
+                routeTemplate: "api/{controller}/{id}/fatura",
+                defaults: new { id = RouteParameter.Optional, action = "GetFatura" }
+            );
+
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
+                defaults: new { id = RouteParameter.Optional, action = "Get" }
             );
 
             // Uncomment the following line of code to enable query support for actions with an IQueryable or IQueryable<T> return type.
