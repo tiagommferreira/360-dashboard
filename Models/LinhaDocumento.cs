@@ -5,7 +5,7 @@ using System.Web;
 
 namespace SINF_EXAMPLE_WS.Models
 {
-    public class LinhaFatura
+    public class LinhaDocumento
     {
         public string TipoLinha
         {
@@ -25,7 +25,7 @@ namespace SINF_EXAMPLE_WS.Models
             set;
         }
 
-        public int PrecUnit
+        public double PrecUnit
         {
             get;
             set;

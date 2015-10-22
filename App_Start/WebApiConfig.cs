@@ -12,8 +12,8 @@ namespace SINF_EXAMPLE_WS
             
             config.Routes.MapHttpRoute(
                 name: "InvoicesApiRoute",
-                routeTemplate: "api/{controller}/{id}/fatura",
-                defaults: new { id = RouteParameter.Optional, action = "GetFatura" }
+                routeTemplate: "api/{controller}/{id}/documento",
+                defaults: new { id = RouteParameter.Optional, action = "GetDocumento" }
             );
 
             config.Routes.MapHttpRoute(

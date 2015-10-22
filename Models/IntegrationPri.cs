@@ -347,12 +347,12 @@ namespace SINF_EXAMPLE_WS.Models
 
         #region faturas
 
-        public static List<LinhaFatura> GetFaturaCompra(string id)
+        public static List<LinhaDocumento> GetDocumentoCompra(string id)
         {
 
             StdBELista objList;
 
-            List<LinhaFatura> listLinhaFatura = new List<LinhaFatura>();
+            List<LinhaDocumento> listLinhaFatura = new List<LinhaDocumento>();
 
             if (PriEngine.InitializeCompany(SINF_EXAMPLE_WS.Properties.Settings.Default.Company.Trim(), SINF_EXAMPLE_WS.Properties.Settings.Default.User.Trim(), SINF_EXAMPLE_WS.Properties.Settings.Default.Password.Trim()) == true)
             {
@@ -367,7 +367,7 @@ namespace SINF_EXAMPLE_WS.Models
 
                 while (!objList.NoFim())
                 {
-                    LinhaFatura linhaFatura = new LinhaFatura();
+                    LinhaDocumento linhaFatura = new LinhaDocumento();
 
                     if (objList.Valor("TipoLinha") != null)
                         linhaFatura.TipoLinha = objList.Valor("TipoLinha");
@@ -379,7 +379,7 @@ namespace SINF_EXAMPLE_WS.Models
                         linhaFatura.Quantidade = objList.Valor("Quantidade");
 
                     if (objList.Valor("PrecUnit") != null)
-                        linhaFatura.Quantidade = objList.Valor("Quantidade");
+                        linhaFatura.PrecUnit = objList.Valor("PrecUnit");
 
                     if (objList.Valor("Desconto1") != null)
                         linhaFatura.Desconto1 = objList.Valor("Desconto1");
@@ -514,11 +514,11 @@ namespace SINF_EXAMPLE_WS.Models
                 return null;
         }
 
-        public static List<LinhaFatura> GetFaturaVenda(string id)
+        public static List<LinhaDocumento> GetDocumentoVenda(string id)
         {
             StdBELista objList;
 
-            List<LinhaFatura> listLinhaFatura = new List<LinhaFatura>();
+            List<LinhaDocumento> listLinhaFatura = new List<LinhaDocumento>();
 
             if (PriEngine.InitializeCompany(SINF_EXAMPLE_WS.Properties.Settings.Default.Company.Trim(), SINF_EXAMPLE_WS.Properties.Settings.Default.User.Trim(), SINF_EXAMPLE_WS.Properties.Settings.Default.Password.Trim()) == true)
             {
@@ -531,11 +531,12 @@ namespace SINF_EXAMPLE_WS.Models
 
                 System.Diagnostics.Debug.WriteLine(numDoc + tipoDoc);
 
-                objList = PriEngine.Engine.Consulta("SELECT \"LinhasCompras\".\"TipoLinha\", \"LinhasCompras\".\"Artigo\", \"LinhasCompras\".\"Quantidade\", \"LinhasCompras\".\"PrecUnit\", \"LinhasCompras\".\"Desconto1\", \"LinhasCompras\".\"TaxaIva\", \"CabecCompras\".\"NumDoc\", \"CabecCompras\".\"DescPag\", \"CabecCompras\".\"Requisicao\", \"CabecCompras\".\"Moeda\", \"CabecCompras\".\"Cambio\", \"CondPag\".\"Descricao\", \"CabecCompras\".\"NumDocExterno\", \"LinhasCompras\".\"Descricao\", \"CabecCompras\".\"RegimeIva\", \"LinhasCompras\".\"PrecoLiquido\", \"CabecCompras\".\"Serie\", \"CabecCompras\".\"Nome\", \"CabecCompras\".\"Morada\", \"CabecCompras\".\"Localidade\", \"CabecCompras\".\"CodPostal\", \"CabecCompras\".\"CodPostalLocalidade\", \"CabecCompras\".\"TotalRetencao\", \"CabecCompras\".\"DescEntidade\", \"LinhasCompras\".\"Desconto2\", \"LinhasCompras\".\"Desconto3\", \"Moedas\".\"DecPrecUnit\", \"LinhasCompras\".\"Unidade\", \"CabecCompras\".\"TipoDoc\", \"CabecCompras\".\"Id\", \"LinhasCompras\".\"TotalDA\", \"LinhasCompras\".\"TotalIva\", \"CabecCompras\".\"TotalRetencaoGarantia\", \"LinhasCompras\".\"NumLinha\", \"LinhasCompras\".\"CodIva\", \"Iva\".\"MotivoIsencao\", \"DocumentosCompra\".\"PagarReceber\", \"DocumentosCompra\".\"TipoDocumento\", \"CabecCompras\".\"Morada2\", \"LinhasCompras\".\"TotalEcotaxa\", \"LinhasCompras\".\"TaxaIvaEcotaxa\", \"Iva\".\"IncluirValorDocs\", \"CabecComprasStatus\".\"ATDocCodeID\", \"DocumentosCompra\".\"BensCirculacao\", \"CabecComprasStatus\".\"Estado\", \"CabecComprasStatus\".\"Anulado\", \"Fornecedores\".\"EnderecoWeb\", \"CabecCompras\".\"NumContribuinte\", \"Fornecedores\".\"Matricula\", \"Fornecedores\".\"Conservatoria\", \"Fornecedores\".\"CapitalSocial\", \"CabecCompras\".\"DataDoc\", \"CabecCompras\".\"DataVencimento\", \"CabecCompras\".\"Filial\" FROM   (((((\"CabecCompras\" \"CabecCompras\" LEFT OUTER JOIN \"CondPag\" \"CondPag\" ON \"CabecCompras\".\"CondPag\"=\"CondPag\".\"CondPag\") LEFT OUTER JOIN \"Moedas\" \"Moedas\" ON \"CabecCompras\".\"Moeda\"=\"Moedas\".\"Moeda\") INNER JOIN \"DocumentosCompra\" \"DocumentosCompra\" ON \"CabecCompras\".\"TipoDoc\"=\"DocumentosCompra\".\"Documento\") INNER JOIN (\"Iva\" \"Iva\" FULL OUTER JOIN \"LinhasCompras\" \"LinhasCompras\" ON \"Iva\".\"Iva\"=\"LinhasCompras\".\"CodIva\") ON \"CabecCompras\".\"Id\"=\"LinhasCompras\".\"IdCabecCompras\") LEFT OUTER JOIN \"CabecComprasStatus\" \"CabecComprasStatus\" ON \"CabecCompras\".\"Id\"=\"CabecComprasStatus\".\"IdCabecCompras\") LEFT OUTER JOIN \"Fornecedores\" \"Fornecedores\" ON \"CabecCompras\".\"Entidade\"=\"Fornecedores\".\"Fornecedor\" WHERE \"CabecCompras\".\"Serie\"=N'A' AND \"CabecCompras\".\"TipoDoc\"=N'GR' AND \"CabecCompras\".\"NumDoc\"=2 ORDER BY \"LinhasCompras\".\"NumLinha\"");
+                objList = PriEngine.Engine.Consulta("SELECT \"LinhasDoc\".\"TipoLinha\", \"LinhasDoc\".\"Artigo\", \"LinhasDoc\".\"Quantidade\", \"LinhasDoc\".\"PrecUnit\", \"LinhasDoc\".\"Desconto1\", \"LinhasDoc\".\"TaxaIva\", \"CabecDoc\".\"NumDoc\", \"CabecDoc\".\"TipoDoc\", \"CabecDoc\".\"DescEntidade\", \"CabecDoc\".\"DescPag\", \"CabecDoc\".\"Requisicao\", \"CabecDoc\".\"Moeda\", \"CabecDoc\".\"Cambio\", \"LinhasDoc\".\"Descricao\", \"CabecDoc\".\"RegimeIva\", \"CondPag\".\"Descricao\" AS \"DescricaoFatura\", \"LinhasDoc\".\"PrecoLiquido\", \"CabecDoc\".\"Serie\", \"Moedas\".\"DecPrecUnit\", \"CabecDoc\".\"TotalRetencao\", \"DocumentosVenda\".\"LiquidacaoAutomatica\", \"LinhasDoc\".\"Desconto2\", \"LinhasDoc\".\"Desconto3\", \"LinhasDoc\".\"Unidade\", \"CabecDoc\".\"Id\", \"LinhasDoc\".\"TotalIva\", \"LinhasDoc\".\"NumLinha\", \"LinhasDoc\".\"TotalDA\", \"CabecDoc\".\"TotalRetencaoGarantia\", \"LinhasDoc\".\"CodIva\", \"Iva\".\"MotivoIsencao\", \"DocumentosVenda\".\"PagarReceber\", \"CabecDoc\".\"Nome\", \"CabecDoc\".\"NomeFac\", \"CabecDoc\".\"Morada\", \"CabecDoc\".\"MoradaFac\", \"CabecDoc\".\"Morada2\", \"CabecDoc\".\"Morada2Fac\", \"CabecDoc\".\"Localidade\", \"CabecDoc\".\"LocalidadeFac\", \"CabecDoc\".\"CodPostal\", \"CabecDoc\".\"CodigoPostalFac\", \"CabecDoc\".\"CodPostalLocalidade\", \"CabecDoc\".\"LocalidadeCodigoPostalFac\", \"CabecDoc\".\"NumContribuinte\", \"CabecDoc\".\"NumContribuinteFac\", \"LinhasDoc\".\"TotalEcotaxa\", \"LinhasDoc\".\"TaxaIvaEcotaxa\", \"DocumentosVenda\".\"TipoDocumento\", \"SeriesVendas\".\"DescricaoVia04\", \"SeriesVendas\".\"DescricaoVia05\", \"SeriesVendas\".\"DescricaoVia06\", \"Iva\".\"IncluirValorDocs\", \"CabecDocStatus\".\"ATDocCodeID\", \"DocumentosVenda\".\"BensCirculacao\", \"CabecDocStatus\".\"Estado\", \"CabecDocStatus\".\"Anulado\", \"CabecDoc\".\"DataVencimento\", \"CabecDoc\".\"Data\", \"Moedas\".\"DecArredonda\", \"CabecDoc\".\"CambioMAlt\", \"CabecDoc\".\"CambioMBase\", \"Moedas\".\"DescParteInteira\", \"Moedas\".\"DescParteDecimal\", \"CabecDoc\".\"Filial\" FROM   ((((((\"CabecDoc\" \"CabecDoc\" INNER JOIN \"LinhasDoc\" \"LinhasDoc\" ON \"CabecDoc\".\"Id\"=\"LinhasDoc\".\"IdCabecDoc\") LEFT OUTER JOIN \"CondPag\" \"CondPag\" ON \"CabecDoc\".\"CondPag\"=\"CondPag\".\"CondPag\") INNER JOIN \"Moedas\" \"Moedas\" ON \"CabecDoc\".\"Moeda\"=\"Moedas\".\"Moeda\") INNER JOIN \"DocumentosVenda\" \"DocumentosVenda\" ON \"CabecDoc\".\"TipoDoc\"=\"DocumentosVenda\".\"Documento\") INNER JOIN \"SeriesVendas\" \"SeriesVendas\" ON (\"CabecDoc\".\"TipoDoc\"=\"SeriesVendas\".\"TipoDoc\") AND (\"CabecDoc\".\"Serie\"=\"SeriesVendas\".\"Serie\")) FULL OUTER JOIN \"Iva\" \"Iva\" ON \"LinhasDoc\".\"CodIva\"=\"Iva\".\"Iva\") LEFT OUTER JOIN \"CabecDocStatus\" \"CabecDocStatus\" ON \"CabecDoc\".\"Id\"=\"CabecDocStatus\".\"IdCabecDoc\" WHERE  \"CabecDoc\".\"Filial\"=N'000' AND \"CabecDoc\".\"Serie\"=N'" + serie + "' AND \"CabecDoc\".\"TipoDoc\"=N'" + tipoDoc + "' AND \"CabecDoc\".\"NumDoc\"=" + numDoc + " ORDER BY \"LinhasDoc\".\"NumLinha\"");
+                
 
                 while (!objList.NoFim())
                 {
-                    LinhaFatura linhaFatura = new LinhaFatura();
+                    LinhaDocumento linhaFatura = new LinhaDocumento();
 
                     if (objList.Valor("TipoLinha") != null)
                         linhaFatura.TipoLinha = objList.Valor("TipoLinha");
@@ -547,7 +548,7 @@ namespace SINF_EXAMPLE_WS.Models
                         linhaFatura.Quantidade = objList.Valor("Quantidade");
 
                     if (objList.Valor("PrecUnit") != null)
-                        linhaFatura.Quantidade = objList.Valor("Quantidade");
+                        linhaFatura.PrecUnit = objList.Valor("PrecUnit");
 
                     if (objList.Valor("Desconto1") != null)
                         linhaFatura.Desconto1 = objList.Valor("Desconto1");
@@ -569,9 +570,6 @@ namespace SINF_EXAMPLE_WS.Models
 
                     if (objList.Valor("DescricaoFatura") != null)
                         linhaFatura.DescricaoFatura = objList.Valor("DescricaoFatura");
-
-                    if (objList.Valor("NumDocExterno") != null)
-                        linhaFatura.NumDocExterno = objList.Valor("NumDocExterno");
 
                     if (objList.Valor("RegimeIva") != null)
                         linhaFatura.RegimeIva = objList.Valor("RegimeIva");
@@ -657,14 +655,11 @@ namespace SINF_EXAMPLE_WS.Models
                     if (objList.Valor("Anulado") != null)
                         linhaFatura.Anulado = objList.Valor("Anulado");
 
-                    if (objList.Valor("EnderecoWeb") != null)
-                        linhaFatura.EnderecoWeb = objList.Valor("EnderecoWeb");
-
                     if (objList.Valor("NumContribuinte") != null)
                         linhaFatura.NumContribuinte = objList.Valor("NumContribuinte");
 
-                    if (objList.Valor("DataDoc") != null)
-                        linhaFatura.DataDoc = objList.Valor("DataDoc");
+                    if (objList.Valor("Data") != null)
+                        linhaFatura.DataDoc = objList.Valor("Data");
 
                     if (objList.Valor("DataVencimento") != null)
                         linhaFatura.DataVencimento = objList.Valor("DataVencimento");
