@@ -31,5 +31,11 @@ namespace SINF_EXAMPLE_WS.Controllers
                 return venda;
             }
         }
+
+        // GET api/Vendas/5/fatura    
+        public List<LinhaFatura> GetFatura(string id)
+        {
+            return IntegrationPri.GetFaturaVenda(id);
+        }
     }
 }

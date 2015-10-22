@@ -345,7 +345,7 @@ namespace SINF_EXAMPLE_WS.Models
 
         #endregion
 
-        #region
+        #region faturas
 
         public static List<LinhaFatura> GetFaturaCompra(string id)
         {
@@ -491,6 +491,174 @@ namespace SINF_EXAMPLE_WS.Models
 
                     if (objList.Valor("EnderecoWeb") != null)
                         linhaFatura.EnderecoWeb = objList.Valor("EnderecoWeb"); 
+
+                    if (objList.Valor("NumContribuinte") != null)
+                        linhaFatura.NumContribuinte = objList.Valor("NumContribuinte");
+
+                    if (objList.Valor("DataDoc") != null)
+                        linhaFatura.DataDoc = objList.Valor("DataDoc");
+
+                    if (objList.Valor("DataVencimento") != null)
+                        linhaFatura.DataVencimento = objList.Valor("DataVencimento");
+
+                    listLinhaFatura.Add(linhaFatura);
+
+
+                    objList.Seguinte();
+
+                }
+
+                return listLinhaFatura;
+            }
+            else
+                return null;
+        }
+
+        public static List<LinhaFatura> GetFaturaVenda(string id)
+        {
+            StdBELista objList;
+
+            List<LinhaFatura> listLinhaFatura = new List<LinhaFatura>();
+
+            if (PriEngine.InitializeCompany(SINF_EXAMPLE_WS.Properties.Settings.Default.Company.Trim(), SINF_EXAMPLE_WS.Properties.Settings.Default.User.Trim(), SINF_EXAMPLE_WS.Properties.Settings.Default.Password.Trim()) == true)
+            {
+
+                objList = PriEngine.Engine.Consulta("SELECT \"CabecDoc\".\"TipoDoc\", \"CabecDoc\".\"Entidade\", \"CabecDoc\".\"NumDoc\", \"CabecDoc\".\"TotalIva\", \"CabecDoc\".\"TotalDesc\", \"CabecDoc\".\"TotalOutros\", \"CabecDoc\".\"Data\", \"DocumentosVenda\".\"Descricao\", \"CabecDoc\".\"TotalMerc\", \"CabecDoc\".\"Serie\", \"CabecDoc\".\"Nome\", \"CabecDoc\".\"Cambio\", \"CabecDoc\".\"CambioMBase\", \"CabecDoc\".\"CambioMAlt\", \"CabecDoc\".\"TotalEcotaxa\", \"CabecDoc\".\"TotalIEC\", \"EstadosConta\".\"Adiantamento\", \"CabecDoc\".\"TipoEntidade\", \"CabecDocStatus\".\"Anulado\" FROM   ((\"CabecDoc\" \"CabecDoc\" INNER JOIN \"DocumentosVenda\" \"DocumentosVenda\" ON \"CabecDoc\".\"TipoDoc\"=\"DocumentosVenda\".\"Documento\") INNER JOIN \"CabecDocStatus\" \"CabecDocStatus\" ON \"CabecDoc\".\"Id\"=\"CabecDocStatus\".\"IdCabecDoc\") LEFT OUTER JOIN \"EstadosConta\" \"EstadosConta\" ON (\"DocumentosVenda\".\"TipoConta\"=\"EstadosConta\".\"TipoConta\") AND (\"DocumentosVenda\".\"Estado\"=\"EstadosConta\".\"Estado\") WHERE (\"CabecDoc\".\"NumDoc\" = '" + id + "') AND (\"CabecDoc\".\"TipoDoc\"=N'AVE' OR \"CabecDoc\".\"TipoDoc\"=N'FA' OR \"CabecDoc\".\"TipoDoc\"=N'GR' OR \"CabecDoc\".\"TipoDoc\"=N'NC' OR \"CabecDoc\".\"TipoDoc\"=N'VD') AND (\"CabecDoc\".\"Data\">= '2014-01-01 00:00:00' AND \"CabecDoc\".\"Data\"< '2015-10-20 00:00:00') AND \"CabecDocStatus\".\"Anulado\"=0 AND (\"CabecDoc\".\"Serie\"=N'A' OR \"CabecDoc\".\"Serie\"=N'C') ORDER BY \"CabecDoc\".\"TipoDoc\", \"CabecDoc\".\"NumDoc\"");
+
+                string tipoDoc = objList.Valor("TipoDoc");
+                string serie = objList.Valor("Serie");
+                int numDoc = objList.Valor("NumDoc");
+
+                System.Diagnostics.Debug.WriteLine(numDoc + tipoDoc);
+
+                objList = PriEngine.Engine.Consulta("SELECT \"LinhasCompras\".\"TipoLinha\", \"LinhasCompras\".\"Artigo\", \"LinhasCompras\".\"Quantidade\", \"LinhasCompras\".\"PrecUnit\", \"LinhasCompras\".\"Desconto1\", \"LinhasCompras\".\"TaxaIva\", \"CabecCompras\".\"NumDoc\", \"CabecCompras\".\"DescPag\", \"CabecCompras\".\"Requisicao\", \"CabecCompras\".\"Moeda\", \"CabecCompras\".\"Cambio\", \"CondPag\".\"Descricao\", \"CabecCompras\".\"NumDocExterno\", \"LinhasCompras\".\"Descricao\", \"CabecCompras\".\"RegimeIva\", \"LinhasCompras\".\"PrecoLiquido\", \"CabecCompras\".\"Serie\", \"CabecCompras\".\"Nome\", \"CabecCompras\".\"Morada\", \"CabecCompras\".\"Localidade\", \"CabecCompras\".\"CodPostal\", \"CabecCompras\".\"CodPostalLocalidade\", \"CabecCompras\".\"TotalRetencao\", \"CabecCompras\".\"DescEntidade\", \"LinhasCompras\".\"Desconto2\", \"LinhasCompras\".\"Desconto3\", \"Moedas\".\"DecPrecUnit\", \"LinhasCompras\".\"Unidade\", \"CabecCompras\".\"TipoDoc\", \"CabecCompras\".\"Id\", \"LinhasCompras\".\"TotalDA\", \"LinhasCompras\".\"TotalIva\", \"CabecCompras\".\"TotalRetencaoGarantia\", \"LinhasCompras\".\"NumLinha\", \"LinhasCompras\".\"CodIva\", \"Iva\".\"MotivoIsencao\", \"DocumentosCompra\".\"PagarReceber\", \"DocumentosCompra\".\"TipoDocumento\", \"CabecCompras\".\"Morada2\", \"LinhasCompras\".\"TotalEcotaxa\", \"LinhasCompras\".\"TaxaIvaEcotaxa\", \"Iva\".\"IncluirValorDocs\", \"CabecComprasStatus\".\"ATDocCodeID\", \"DocumentosCompra\".\"BensCirculacao\", \"CabecComprasStatus\".\"Estado\", \"CabecComprasStatus\".\"Anulado\", \"Fornecedores\".\"EnderecoWeb\", \"CabecCompras\".\"NumContribuinte\", \"Fornecedores\".\"Matricula\", \"Fornecedores\".\"Conservatoria\", \"Fornecedores\".\"CapitalSocial\", \"CabecCompras\".\"DataDoc\", \"CabecCompras\".\"DataVencimento\", \"CabecCompras\".\"Filial\" FROM   (((((\"CabecCompras\" \"CabecCompras\" LEFT OUTER JOIN \"CondPag\" \"CondPag\" ON \"CabecCompras\".\"CondPag\"=\"CondPag\".\"CondPag\") LEFT OUTER JOIN \"Moedas\" \"Moedas\" ON \"CabecCompras\".\"Moeda\"=\"Moedas\".\"Moeda\") INNER JOIN \"DocumentosCompra\" \"DocumentosCompra\" ON \"CabecCompras\".\"TipoDoc\"=\"DocumentosCompra\".\"Documento\") INNER JOIN (\"Iva\" \"Iva\" FULL OUTER JOIN \"LinhasCompras\" \"LinhasCompras\" ON \"Iva\".\"Iva\"=\"LinhasCompras\".\"CodIva\") ON \"CabecCompras\".\"Id\"=\"LinhasCompras\".\"IdCabecCompras\") LEFT OUTER JOIN \"CabecComprasStatus\" \"CabecComprasStatus\" ON \"CabecCompras\".\"Id\"=\"CabecComprasStatus\".\"IdCabecCompras\") LEFT OUTER JOIN \"Fornecedores\" \"Fornecedores\" ON \"CabecCompras\".\"Entidade\"=\"Fornecedores\".\"Fornecedor\" WHERE \"CabecCompras\".\"Serie\"=N'A' AND \"CabecCompras\".\"TipoDoc\"=N'GR' AND \"CabecCompras\".\"NumDoc\"=2 ORDER BY \"LinhasCompras\".\"NumLinha\"");
+
+                while (!objList.NoFim())
+                {
+                    LinhaFatura linhaFatura = new LinhaFatura();
+
+                    if (objList.Valor("TipoLinha") != null)
+                        linhaFatura.TipoLinha = objList.Valor("TipoLinha");
+
+                    if (objList.Valor("Artigo") != null)
+                        linhaFatura.Artigo = objList.Valor("Artigo");
+
+                    if (objList.Valor("Quantidade") != null)
+                        linhaFatura.Quantidade = objList.Valor("Quantidade");
+
+                    if (objList.Valor("PrecUnit") != null)
+                        linhaFatura.Quantidade = objList.Valor("Quantidade");
+
+                    if (objList.Valor("Desconto1") != null)
+                        linhaFatura.Desconto1 = objList.Valor("Desconto1");
+
+                    if (objList.Valor("TaxaIva") != null)
+                        linhaFatura.TaxaIva = objList.Valor("TaxaIva");
+
+                    if (objList.Valor("NumDoc") != null)
+                        linhaFatura.TaxaIva = objList.Valor("NumDoc");
+
+                    if (objList.Valor("DescPag") != null)
+                        linhaFatura.DescPag = objList.Valor("DescPag");
+
+                    if (objList.Valor("Requisicao") != null)
+                        linhaFatura.Requisicao = objList.Valor("Requisicao");
+
+                    if (objList.Valor("Moeda") != null)
+                        linhaFatura.Moeda = objList.Valor("Moeda");
+
+                    if (objList.Valor("DescricaoFatura") != null)
+                        linhaFatura.DescricaoFatura = objList.Valor("DescricaoFatura");
+
+                    if (objList.Valor("NumDocExterno") != null)
+                        linhaFatura.NumDocExterno = objList.Valor("NumDocExterno");
+
+                    if (objList.Valor("RegimeIva") != null)
+                        linhaFatura.RegimeIva = objList.Valor("RegimeIva");
+
+                    if (objList.Valor("PrecoLiquido") != null)
+                        linhaFatura.PrecoLiquido = objList.Valor("PrecoLiquido");
+
+                    if (objList.Valor("Serie") != null)
+                        linhaFatura.Serie = objList.Valor("Serie");
+
+                    if (objList.Valor("Nome") != null)
+                        linhaFatura.Nome = objList.Valor("Nome");
+
+                    if (objList.Valor("Morada") != null)
+                        linhaFatura.Morada = objList.Valor("Morada");
+
+                    if (objList.Valor("CodPostal") != null)
+                        linhaFatura.CodPostal = objList.Valor("CodPostal");
+
+                    if (objList.Valor("CodPostalLocalidade") != null)
+                        linhaFatura.CodPostalLocalidade = objList.Valor("CodPostalLocalidade");
+
+                    if (objList.Valor("Localidade") != null)
+                        linhaFatura.Localidade = objList.Valor("Localidade");
+
+                    if (objList.Valor("TotalRetencao") != null)
+                        linhaFatura.TotalRetencao = objList.Valor("TotalRetencao");
+
+                    if (objList.Valor("DescEntidade") != null)
+                        linhaFatura.DescEntidade = objList.Valor("DescEntidade");
+
+                    if (objList.Valor("Desconto2") != null)
+                        linhaFatura.Desconto2 = objList.Valor("Desconto2");
+
+                    if (objList.Valor("Desconto3") != null)
+                        linhaFatura.Desconto3 = objList.Valor("Desconto3");
+
+                    if (objList.Valor("DecPrecUnit") != null)
+                        linhaFatura.DecPrecUnit = objList.Valor("DecPrecUnit");
+
+                    if (objList.Valor("Unidade") != null)
+                        linhaFatura.Unidade = objList.Valor("Unidade");
+
+                    if (objList.Valor("TipoDoc") != null)
+                        linhaFatura.TipoDoc = objList.Valor("TipoDoc");
+
+                    if (objList.Valor("Id") != null)
+                        linhaFatura.Id = objList.Valor("Id");
+
+                    if (objList.Valor("TotalIva") != null)
+                        linhaFatura.TotalIva = objList.Valor("TotalIva");
+
+                    if (objList.Valor("TotalRetencaoGarantia") != null)
+                        linhaFatura.TotalRetencaoGarantia = objList.Valor("TotalRetencaoGarantia");
+
+                    if (objList.Valor("NumLinha") != null)
+                        linhaFatura.NumLinha = objList.Valor("NumLinha");
+
+                    if (objList.Valor("CodIva") != null)
+                        linhaFatura.CodIva = objList.Valor("CodIva");
+
+                    if (objList.Valor("MotivoIsencao") != null)
+                        linhaFatura.MotivoIsencao = objList.Valor("MotivoIsencao");
+
+                    if (objList.Valor("PagarReceber") != null)
+                        linhaFatura.PagarReceber = objList.Valor("PagarReceber");
+
+                    if (objList.Valor("Morada2") != null)
+                        linhaFatura.Morada2 = objList.Valor("Morada2");
+
+                    if (objList.Valor("Descricao") != null)
+                        linhaFatura.Descricao = objList.Valor("Descricao");
+
+                    if (objList.Valor("TotalEcotaxa") != null)
+                        linhaFatura.TotalEcotaxa = objList.Valor("TotalEcotaxa");
+
+                    if (objList.Valor("TaxaIvaEcotaxa") != null)
+                        linhaFatura.TaxaIvaEcotaxa = objList.Valor("TaxaIvaEcotaxa");
+
+                    if (objList.Valor("Estado") != null)
+                        linhaFatura.Estado = objList.Valor("Estado");
+
+                    if (objList.Valor("Anulado") != null)
+                        linhaFatura.Anulado = objList.Valor("Anulado");
+
+                    if (objList.Valor("EnderecoWeb") != null)
+                        linhaFatura.EnderecoWeb = objList.Valor("EnderecoWeb");
 
                     if (objList.Valor("NumContribuinte") != null)
                         linhaFatura.NumContribuinte = objList.Valor("NumContribuinte");
