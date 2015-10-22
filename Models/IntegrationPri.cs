@@ -474,6 +474,9 @@ namespace SINF_EXAMPLE_WS.Models
                     if (objList.Valor("Morada2") != null)
                         linhaFatura.Morada2 = objList.Valor("Morada2");
 
+                    if (objList.Valor("Descricao") != null)
+                        linhaFatura.Descricao = objList.Valor("Descricao");
+
                     if (objList.Valor("TotalEcotaxa") != null)
                         linhaFatura.TotalEcotaxa = objList.Valor("TotalEcotaxa");
 
