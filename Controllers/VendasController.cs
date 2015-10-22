@@ -18,24 +18,10 @@ namespace SINF_EXAMPLE_WS.Controllers
             return IntegrationPri.ListaVendas();
         }
 
-        // GET api/Vendas/5   
-        public Venda Get(string id)
+        // GET api/Vendas/Documento?serie=A&tipoDoc=FA&numDoc=1
+        public List<LinhaDocumento> GetDocumento(string serie, string tipoDoc, string numDoc)
         {
-            Venda venda = IntegrationPri.GetVenda(id);
-            if (venda == null)
-            {
-                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
-            }
-            else
-            {
-                return venda;
-            }
-        }
-
-        // GET api/Vendas/5/fatura    
-        public List<LinhaDocumento> GetDocumento(string id)
-        {
-            return IntegrationPri.GetDocumentoVenda(id);
+            return IntegrationPri.GetDocumentoVenda(serie, tipoDoc, numDoc);   
         }
     }
 }
