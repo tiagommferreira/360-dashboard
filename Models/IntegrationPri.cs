@@ -702,5 +702,40 @@ namespace SINF_EXAMPLE_WS.Models
 
         #endregion
 
+        #region Funcionarios
+
+        public static List<Funcionario> ListaFuncionarios()
+        {
+            StdBELista objList;
+
+            List<Funcionario> listFuncionarios = new List<Funcionario>();
+
+            if (PriEngine.InitializeCompany(SINF_EXAMPLE_WS.Properties.Settings.Default.Company.Trim(), SINF_EXAMPLE_WS.Properties.Settings.Default.User.Trim(), SINF_EXAMPLE_WS.Properties.Settings.Default.Password.Trim()) == true)
+            {
+
+                objList = PriEngine.Engine.Consulta("SELECT [FUNCIONARIOS].[CODIGO],[FUNCIONARIOS].[NOME] FROM [FUNCIONARIOS] WITH (NOLOCK)");
+
+                while (!objList.NoFim())
+                {
+                    Console.WriteLine(objList);
+
+                    listFuncionarios.Add(new Funcionario
+                    {
+                        Codigo = objList.Valor("Codigo"),
+                        Nome = objList.Valor("Nome"),
+                    });
+
+                    objList.Seguinte();
+
+                }
+
+                return listFuncionarios;
+            }
+            else
+                return null;
+        }
+
+        #endregion
+
     }
 }
