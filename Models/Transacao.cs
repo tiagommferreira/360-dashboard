@@ -53,6 +53,11 @@ namespace SINF_EXAMPLE_WS.Models
             set;
         }
 
+        public int TipoVenc
+        {
+            get;
+            set;
+        }
         public int Mes
         {
             get;

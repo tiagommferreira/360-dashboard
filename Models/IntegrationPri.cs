@@ -300,7 +300,7 @@ namespace SINF_EXAMPLE_WS.Models
         public static List<Transacao> ListaTransacoes()
         {
 
-            string query = "SELECT Pagamentos.Ano AS Ano, Pagamentos.NumPeriodoProcessado AS NumPeriodoProcessado, Funcionarios.Codigo AS FuncCodigo, Funcionarios.Nome AS FuncNome, FuncFormasPagamento.Moeda AS PagamentoMoeda, FuncFormasPagamento.ContaEmpresa AS PagamentoContaEmpresa,FuncFormasPagamento.Percentagem AS PagamentoPercentagem,FuncFormasPagamento.ModoPagTesouraria AS PagamentoModoPagamento,Pagamentos.DataEfectiva AS PagamentoData,Pagamentos.ValorLiquido AS PagamentoValorLiquido  FROM Pagamentos, FuncFormasPagamento INNER JOIN Funcionarios ON Funcionarios.Codigo=FuncFormasPagamento.Funcionario WHERE Activo = 1 and Pagamentos.Funcionario=Funcionarios.Codigo";
+            string query = "SELECT Pagamentos.Ano AS Ano, Pagamentos.TipoVenc AS TipoVenc, Pagamentos.NumPeriodoProcessado AS NumPeriodoProcessado, Funcionarios.Codigo AS FuncCodigo, Funcionarios.Nome AS FuncNome, FuncFormasPagamento.Moeda AS PagamentoMoeda, FuncFormasPagamento.ContaEmpresa AS PagamentoContaEmpresa,FuncFormasPagamento.Percentagem AS PagamentoPercentagem,FuncFormasPagamento.ModoPagTesouraria AS PagamentoModoPagamento,Pagamentos.DataEfectiva AS PagamentoData,Pagamentos.ValorLiquido AS PagamentoValorLiquido  FROM Pagamentos, FuncFormasPagamento INNER JOIN Funcionarios ON Funcionarios.Codigo=FuncFormasPagamento.Funcionario WHERE Activo = 1 and Pagamentos.Funcionario=Funcionarios.Codigo";
 
             StdBELista objList;
 
@@ -318,6 +318,7 @@ namespace SINF_EXAMPLE_WS.Models
                     {
                         FuncCodigo = objList.Valor("FuncCodigo"),
                         FuncNome = objList.Valor("FuncNome"),
+                        TipoVenc = objList.Valor("TipoVenc"),
                         PagamentoMoeda = objList.Valor("PagamentoMoeda"),
                         PagamentoContaEmpresa = objList.Valor("PagamentoContaEmpresa"),
                         PagamentoPercentagem = objList.Valor("PagamentoPercentagem"),
@@ -349,7 +350,7 @@ namespace SINF_EXAMPLE_WS.Models
             if (PriEngine.InitializeCompany(SINF_EXAMPLE_WS.Properties.Settings.Default.Company.Trim(), SINF_EXAMPLE_WS.Properties.Settings.Default.User.Trim(), SINF_EXAMPLE_WS.Properties.Settings.Default.Password.Trim()) == true)
             {
 
-                objList = PriEngine.Engine.Consulta("SELECT  Pagamentos.Ano AS Ano, Pagamentos.NumPeriodoProcessado AS NumPeriodoProcessado, Funcionarios.Codigo AS FuncCodigo, Funcionarios.Nome AS FuncNome, FuncFormasPagamento.Moeda AS PagamentoMoeda,	 FuncFormasPagamento.ContaEmpresa AS PagamentoContaEmpresa, FuncFormasPagamento.Percentagem AS PagamentoPercentagem,FuncFormasPagamento.ModoPagTesouraria AS PagamentoModoPagamento,Pagamentos.DataEfectiva AS PagamentoData,Pagamentos.ValorLiquido AS PagamentoValorLiquido FROM Pagamentos, FuncFormasPagamento INNER JOIN Funcionarios ON Funcionarios.Codigo=FuncFormasPagamento.Funcionario WHERE Activo = 1 and Pagamentos.Funcionario='" + codigoFuncionario + "' and Pagamentos.Funcionario=Funcionarios.Codigo and Pagamentos.Ano=" + ano + " and Pagamentos.NumPeriodoProcessado=" + mes + ";");
+                objList = PriEngine.Engine.Consulta("SELECT  Pagamentos.Ano AS Ano, Pagamentos.TipoVenc AS TipoVenc, Pagamentos.NumPeriodoProcessado AS NumPeriodoProcessado, Funcionarios.Codigo AS FuncCodigo, Funcionarios.Nome AS FuncNome, FuncFormasPagamento.Moeda AS PagamentoMoeda,	 FuncFormasPagamento.ContaEmpresa AS PagamentoContaEmpresa, FuncFormasPagamento.Percentagem AS PagamentoPercentagem,FuncFormasPagamento.ModoPagTesouraria AS PagamentoModoPagamento,Pagamentos.DataEfectiva AS PagamentoData,Pagamentos.ValorLiquido AS PagamentoValorLiquido FROM Pagamentos, FuncFormasPagamento INNER JOIN Funcionarios ON Funcionarios.Codigo=FuncFormasPagamento.Funcionario WHERE Activo = 1 and Pagamentos.Funcionario='" + codigoFuncionario + "' and Pagamentos.Funcionario=Funcionarios.Codigo and Pagamentos.Ano=" + ano + " and Pagamentos.NumPeriodoProcessado=" + mes + ";");
 
                 while (!objList.NoFim())
                 {
@@ -357,6 +358,7 @@ namespace SINF_EXAMPLE_WS.Models
                     {
                         FuncCodigo = objList.Valor("FuncCodigo"),
                         FuncNome = objList.Valor("FuncNome"),
+                        TipoVenc = objList.Valor("TipoVenc"),
                         PagamentoMoeda = objList.Valor("PagamentoMoeda"),
                         PagamentoContaEmpresa = objList.Valor("PagamentoContaEmpresa"),
                         PagamentoPercentagem = objList.Valor("PagamentoPercentagem"),
