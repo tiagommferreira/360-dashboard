@@ -300,7 +300,7 @@ namespace SINF_EXAMPLE_WS.Models
         public static List<Transacao> ListaTransacoes()
         {
 
-            string query = "SELECT Funcionarios.Codigo AS FuncCodigo, Funcionarios.Nome AS FuncNome, FuncFormasPagamento.Moeda AS PagamentoMoeda, FuncFormasPagamento.ContaEmpresa AS PagamentoContaEmpresa,FuncFormasPagamento.Percentagem AS PagamentoPercentagem,FuncFormasPagamento.ModoPagTesouraria AS PagamentoModoPagamento,Pagamentos.DataEfectiva AS PagamentoData,Pagamentos.ValorLiquido AS PagamentoValorLiquido  FROM Pagamentos, FuncFormasPagamento INNER JOIN Funcionarios ON Funcionarios.Codigo=FuncFormasPagamento.Funcionario WHERE Activo = 1 and Pagamentos.Funcionario=Funcionarios.Codigo";
+            string query = "SELECT Pagamentos.Ano AS Ano, Pagamentos.NumPeriodoProcessado AS NumPeriodoProcessado, Funcionarios.Codigo AS FuncCodigo, Funcionarios.Nome AS FuncNome, FuncFormasPagamento.Moeda AS PagamentoMoeda, FuncFormasPagamento.ContaEmpresa AS PagamentoContaEmpresa,FuncFormasPagamento.Percentagem AS PagamentoPercentagem,FuncFormasPagamento.ModoPagTesouraria AS PagamentoModoPagamento,Pagamentos.DataEfectiva AS PagamentoData,Pagamentos.ValorLiquido AS PagamentoValorLiquido  FROM Pagamentos, FuncFormasPagamento INNER JOIN Funcionarios ON Funcionarios.Codigo=FuncFormasPagamento.Funcionario WHERE Activo = 1 and Pagamentos.Funcionario=Funcionarios.Codigo";
 
             StdBELista objList;
 
@@ -324,6 +324,8 @@ namespace SINF_EXAMPLE_WS.Models
                         PagamentoModoPagamento = objList.Valor("PagamentoModoPagamento"),
                        // TODO:  PagamentoData = (DateTime) objList.Valor("PagamentoData"),
                         PagamentoValorLiquido = objList.Valor("PagamentoValorLiquido"),
+                        Ano = objList.Valor("Ano"),
+                        Mes = objList.Valor("NumPeriodoProcessado")
                         
                     });
 
@@ -338,9 +340,42 @@ namespace SINF_EXAMPLE_WS.Models
                 return null;
         }
 
-        public static Transacao GetTransacao(string id)
+        public static List<Transacao> GetTransacao(string codigoFuncionario, int ano, int mes)
         {
-            return null;
+            StdBELista objList;
+
+            List<Transacao> listTransacoes = new List<Transacao>();
+
+            if (PriEngine.InitializeCompany(SINF_EXAMPLE_WS.Properties.Settings.Default.Company.Trim(), SINF_EXAMPLE_WS.Properties.Settings.Default.User.Trim(), SINF_EXAMPLE_WS.Properties.Settings.Default.Password.Trim()) == true)
+            {
+
+                objList = PriEngine.Engine.Consulta("SELECT  Pagamentos.Ano AS Ano, Pagamentos.NumPeriodoProcessado AS NumPeriodoProcessado, Funcionarios.Codigo AS FuncCodigo, Funcionarios.Nome AS FuncNome, FuncFormasPagamento.Moeda AS PagamentoMoeda,	 FuncFormasPagamento.ContaEmpresa AS PagamentoContaEmpresa, FuncFormasPagamento.Percentagem AS PagamentoPercentagem,FuncFormasPagamento.ModoPagTesouraria AS PagamentoModoPagamento,Pagamentos.DataEfectiva AS PagamentoData,Pagamentos.ValorLiquido AS PagamentoValorLiquido FROM Pagamentos, FuncFormasPagamento INNER JOIN Funcionarios ON Funcionarios.Codigo=FuncFormasPagamento.Funcionario WHERE Activo = 1 and Pagamentos.Funcionario='" + codigoFuncionario + "' and Pagamentos.Funcionario=Funcionarios.Codigo and Pagamentos.Ano=" + ano + " and Pagamentos.NumPeriodoProcessado=" + mes + ";");
+
+                while (!objList.NoFim())
+                {
+                    listTransacoes.Add(new Transacao
+                    {
+                        FuncCodigo = objList.Valor("FuncCodigo"),
+                        FuncNome = objList.Valor("FuncNome"),
+                        PagamentoMoeda = objList.Valor("PagamentoMoeda"),
+                        PagamentoContaEmpresa = objList.Valor("PagamentoContaEmpresa"),
+                        PagamentoPercentagem = objList.Valor("PagamentoPercentagem"),
+                        PagamentoModoPagamento = objList.Valor("PagamentoModoPagamento"),
+                        // TODO:  PagamentoData = (DateTime) objList.Valor("PagamentoData"),
+                        PagamentoValorLiquido = objList.Valor("PagamentoValorLiquido"),
+                        Ano = objList.Valor("Ano"),
+                        Mes = objList.Valor("NumPeriodoProcessado")
+
+                    });
+
+                    objList.Seguinte();
+
+                }
+
+                return listTransacoes;
+            }
+            else
+                return null;
         }
 
         #endregion

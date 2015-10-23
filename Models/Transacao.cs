@@ -47,6 +47,16 @@ namespace SINF_EXAMPLE_WS.Models
             get;
             set;
         }
+        public int Ano
+        {
+            get;
+            set;
+        }
 
+        public int Mes
+        {
+            get;
+            set;
+        }
     }
 }

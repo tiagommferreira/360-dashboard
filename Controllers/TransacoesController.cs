@@ -20,9 +20,9 @@ namespace SINF_EXAMPLE_WS.Controllers
         }
 
         // GET api/produto/5    
-        public Transacao Get(string id)
+        public List<Transacao> Get(string codigoFuncionario, int ano, int mes)
         {
-            Transacao transacao = IntegrationPri.GetTransacao(id);
+            List<Transacao> transacao = IntegrationPri.GetTransacao(codigoFuncionario, ano, mes);
             if (transacao == null)
             {
                 throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
