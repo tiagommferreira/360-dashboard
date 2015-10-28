@@ -9,7 +9,12 @@ namespace SINF_EXAMPLE_WS
     {
         public static void Register(HttpConfiguration config)
         {
-            
+            config.Routes.MapHttpRoute(
+                name: "PaymentsApiRoute",
+                routeTemplate: "api/{controller}/Salarios",
+                defaults: new { controller = "Funcionarios", action = "GetSalarios" }
+            );
+
             config.Routes.MapHttpRoute(
                 name: "InvoicesApiRoute",
                 routeTemplate: "api/{controller}/Documento",

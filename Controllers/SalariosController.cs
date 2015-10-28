@@ -8,7 +8,7 @@ using SINF_EXAMPLE_WS.Models;
 
 namespace SINF_EXAMPLE_WS.Controllers
 {
-    public class TransacoesController : ApiController
+    public class SalariosController : ApiController
     {
         
         //
@@ -16,7 +16,7 @@ namespace SINF_EXAMPLE_WS.Controllers
 
         public IEnumerable<Transacao> Get()
         {
-            return IntegrationPri.ListaTransacoes();
+            return IntegrationPri.ListaSalarios();
         }
 
         // GET api/produto/5    

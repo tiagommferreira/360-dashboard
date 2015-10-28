@@ -16,5 +16,19 @@ namespace SINF_EXAMPLE_WS.Controllers
         {
             return IntegrationPri.ListaFuncionarios();
         }
+
+        // GET api/Funcionarios/Salarios  
+        public IEnumerable<Transacao> GetSalarios(string id)
+        {
+            List<Transacao> transacoes = IntegrationPri.GetSalarios(id);
+            if (transacoes == null)
+            {
+                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
+            }
+            else
+            {
+                return transacoes;
+            }
+        }
     }
 }
