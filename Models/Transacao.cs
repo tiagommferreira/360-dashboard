@@ -37,11 +37,6 @@ namespace SINF_EXAMPLE_WS.Models
             get;
             set;
         }
-        public DateTime PagamentoData
-        {
-            get;
-            set;
-        }
         public double PagamentoValorLiquido
         {
             get;
