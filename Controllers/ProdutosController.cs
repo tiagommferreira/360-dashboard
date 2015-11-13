@@ -12,7 +12,6 @@ namespace SINF_EXAMPLE_WS.Controllers
     {
         //
         // GET: /Produtos/
-
         public IEnumerable<Produto> Get()
         {
             return IntegrationPri.ListaProdutos();
