@@ -23,6 +23,15 @@ namespace SINF_EXAMPLE_WS.Controllers
             ViewBag.Produtos = produtos;
             return View(produtos);
         }
+        public async Task<ActionResult> View(string id)
+        {
+            var client = new HttpClient();
+            var response = await client.GetAsync("http://localhost:49990/api/Produtos/" + id);
+            var produto = await response.Content.ReadAsAsync<Produto>();
+
+            ViewBag.Produto = produto;
+            return View();
+        }
 
     }
 }

@@ -21,6 +21,7 @@
                         <td>Reference</td>
                         <td>Name</td>
                         <td>Price</td>
+                        <td>Actions</td>
                     </tr>
                 </thead>
                 <tbody>
@@ -30,6 +31,7 @@
                             <td>@x.CodProduto</td>
                             <td>@x.Descricao</td>
                         <td>@x.PVP1</td>
+                            <td><a href="@Url.Action("View", "Produto", new { id = x.CodProduto })">Info</a></td>
                     </tr>
                     }
 
