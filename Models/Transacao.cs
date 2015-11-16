@@ -13,7 +13,7 @@ namespace SINF_EXAMPLE_WS.Models
             set;
         }
         public string FuncNome
-        {
+        { 
             get;
             set;
         }
