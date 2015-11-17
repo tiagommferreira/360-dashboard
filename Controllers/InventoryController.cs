@@ -9,10 +9,10 @@ using System.Web.Mvc;
 
 namespace SINF_EXAMPLE_WS.Controllers
 {
-    public class ProdutoController : Controller
+    public class InventoryController : Controller
     {
         //
-        // GET: /Produto/
+        // GET: /Inventory/
 
         public async Task<ActionResult> Index()
         {
@@ -23,6 +23,9 @@ namespace SINF_EXAMPLE_WS.Controllers
             ViewBag.Produtos = produtos;
             return View(produtos);
         }
+
+        // GET : /Inventory/View/{id}
+
         public async Task<ActionResult> View(string id)
         {
             var client = new HttpClient();

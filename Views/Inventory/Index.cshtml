@@ -1,7 +1,7 @@
 ﻿<!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        Produtos
+        Inventory
         <small>Control panel</small>
     </h1>
     <ol class="breadcrumb">
@@ -31,7 +31,7 @@
                             <td>@x.CodProduto</td>
                             <td>@x.Descricao</td>
                         <td>@x.PVP1</td>
-                            <td><a href="@Url.Action("View", "Produto", new { id = x.CodProduto })">Info</a></td>
+                            <td><a href="@Url.Action("View", "Inventory", new { id = x.CodProduto })">Info</a></td>
                     </tr>
                     }
 

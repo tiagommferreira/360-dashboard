@@ -1,0 +1,63 @@
+﻿<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Sales
+        <small>Control panel</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Sales</li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <!-- Small boxes (Stat box) -->
+    <div class="row">
+        <div class="col-lg-12 col-xs-12">
+            <table id="sales_table" class="display" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <td>Name</td>
+                        <td>Entity</td>
+                        <td>Value</td>
+                        <td>Date</td>
+                        <td>Actions</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var x in ViewBag.Vendas)
+                    {
+                        <tr>
+                            
+                            <td>
+                                @((x.Nome == null) ? "n/a" : x.Nome)
+                            </td>
+                            <td>
+                                @((x.Entidade == null) ? "n/a" : x.Entidade)
+                            </td>
+                            <td>
+                                @(@x.TotalDesc+@x.TotalEcotaxa+@x.TotalIEC+@x.TotalMerc) €
+                            </td>
+                           <td>
+                               @((x.Data == null) ? "n/a" : x.Data)
+                            </td>
+                            <td><a href="@Url.Action("View", "Sales", new { serie = @x.Serie, tipoDoc= @x.TipoDoc, numDoc= @x.NumDoc })"> @((x.Descricao == null) ? "n/a" : x.Descricao)</a>
+                               
+                            </td>
+
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div><!-- ./col -->
+    </div><!-- /.row -->
+
+</section><!-- /.content -->
+
+<script>
+    $(document).ready(function () {
+            $('#sales_table').DataTable();
+        });
+</script>
