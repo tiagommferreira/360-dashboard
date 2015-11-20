@@ -20,8 +20,8 @@
                     <tr>
                         <td>Name</td>
                         <td>Entity</td>
-                        <td>Value</td>
                         <td>Date</td>
+                        <td align="right">Value (€) </td>
                         <td>Actions</td>
                     </tr>
                 </thead>
@@ -36,11 +36,11 @@
                             <td>
                                 @((x.Entidade == null) ? "n/a" : x.Entidade)
                             </td>
-                            <td>
-                                @(@x.TotalDesc+@x.TotalEcotaxa+@x.TotalIEC+@x.TotalMerc) €
+                            <td style="width:200px">
+                                @((x.Data == null) ? "n/a" : x.Data)
                             </td>
-                           <td>
-                               @((x.Data == null) ? "n/a" : x.Data)
+                            <td align="right" style="width:50px">
+                                @(@x.TotalDesc + @x.TotalEcotaxa + @x.TotalIEC + @x.TotalMerc)
                             </td>
                             <td><a href="@Url.Action("View", "Sales", new { serie = @x.Serie, tipoDoc= @x.TipoDoc, numDoc= @x.NumDoc })"> @((x.Descricao == null) ? "n/a" : x.Descricao)</a>
                                
