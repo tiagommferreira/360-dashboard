@@ -39,7 +39,7 @@
                             <td style="width:200px">
                                 @((x.Data == null) ? "n/a" : x.Data)
                             </td>
-                            <td align="right" style="width:50px">
+                            <td align="right" style="width:80px">
                                 @(@x.TotalDesc + @x.TotalEcotaxa + @x.TotalIEC + @x.TotalMerc)
                             </td>
                             <td><a href="@Url.Action("View", "Sales", new { serie = @x.Serie, tipoDoc= @x.TipoDoc, numDoc= @x.NumDoc })"> @((x.Descricao == null) ? "n/a" : x.Descricao)</a>
