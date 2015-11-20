@@ -18,10 +18,11 @@
             <table id="produtos_table" class="display" cellspacing="0" width="100%">
                 <thead>
                     <tr>
-                        <td>Reference</td>
-                        <td>Name</td>
-                        <td>Price</td>
-                        <td>Actions</td>
+                        <td align ="right">Reference</tdalign>
+                        <td align="right">Name</td>
+                        <td align="right">Stock</td>
+                        <td align="right">Price (€)</td>
+                        <td align="right">Actions</td>
                     </tr>
                 </thead>
                 <tbody>
@@ -30,9 +31,10 @@
                         <tr>
                             <td>@x.CodProduto</td>
                             <td>@x.Descricao</td>
-                        <td>@x.PVP1</td>
-                            <td><a href="@Url.Action("View", "Inventory", new { id = x.CodProduto })">Info</a></td>
-                    </tr>
+                            <td align="right">@x.StockAtual @x.UnidadeBase</td>
+                            <td align="right">@x.PVP1</td>
+                            <td align="right"><a href="@Url.Action("View", "Inventory", new { id = x.CodProduto })">Info</a></td>
+                        </tr>
                     }
 
                 </tbody>

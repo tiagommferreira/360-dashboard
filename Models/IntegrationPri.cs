@@ -62,7 +62,7 @@ namespace SINF_EXAMPLE_WS.Models
             if (PriEngine.InitializeCompany(SINF_EXAMPLE_WS.Properties.Settings.Default.Company.Trim(), SINF_EXAMPLE_WS.Properties.Settings.Default.User.Trim(), SINF_EXAMPLE_WS.Properties.Settings.Default.Password.Trim()) == true)
             {
 
-                objList = PriEngine.Engine.Consulta("SELECT [ARTIGO].[ARTIGO] AS [artigo],[ARTIGO].[DESCRICAO] AS [descricao],[ARTIGOMOEDA].[UNIDADE] AS [unidadeMonetaria],[ARTIGOMOEDA].[MOEDA] AS [moeda],[ARTIGOMOEDA].[PVP1] AS [PVP1],[ARTIGOMOEDA].[PVP2] AS [PVP2],[ARTIGOMOEDA].[PVP3] AS [PVP3] FROM [ARTIGO] WITH (NOLOCK) LEFT JOIN [ARTIGOMOEDA] WITH (NOLOCK) ON  [ARTIGO].[ARTIGO] = [ARTIGOMOEDA].[ARTIGO] WHERE ( (([ARTIGO].[TRATAMENTODIM] < 2 OR [ARTIGO].[TRATAMENTODIM] > 2 OR [ARTIGO].[TRATAMENTODIM] IS NULL ) AND ([ARTIGOMOEDA].[MOEDA] = 'EUR')) )");
+                objList = PriEngine.Engine.Consulta("SELECT [ARTIGO].[ARTIGO] AS [artigo],[ARTIGO].[DESCRICAO] AS [descricao],[ARTIGO].[STKACTUAL] AS [stock] ,[ARTIGOMOEDA].[UNIDADE] AS [unidadeMonetaria],[ARTIGOMOEDA].[MOEDA] AS [moeda],[ARTIGOMOEDA].[PVP1] AS [PVP1],[ARTIGOMOEDA].[PVP2] AS [PVP2],[ARTIGOMOEDA].[PVP3] AS [PVP3] FROM [ARTIGO] WITH (NOLOCK) LEFT JOIN [ARTIGOMOEDA] WITH (NOLOCK) ON  [ARTIGO].[ARTIGO] = [ARTIGOMOEDA].[ARTIGO] WHERE ( (([ARTIGO].[TRATAMENTODIM] < 2 OR [ARTIGO].[TRATAMENTODIM] > 2 OR [ARTIGO].[TRATAMENTODIM] IS NULL ) AND ([ARTIGOMOEDA].[MOEDA] = 'EUR')) )");
 
                 while (!objList.NoFim())
                 {
@@ -75,7 +75,8 @@ namespace SINF_EXAMPLE_WS.Models
                         Moeda = objList.Valor("moeda"),
                         PVP1 = objList.Valor("PVP1"),
                         PVP2 = objList.Valor("PVP2"),
-                        PVP3 = objList.Valor("PVP3")
+                        PVP3 = objList.Valor("PVP3"),
+                        StockAtual = objList.Valor("stock")
                     });
                     
 

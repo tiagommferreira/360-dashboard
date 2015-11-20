@@ -48,5 +48,11 @@ namespace SINF_EXAMPLE_WS.Models
             get;
             set;
         }
+
+        public double StockAtual
+        {
+            get;
+            set;
+        }
     }
 }
