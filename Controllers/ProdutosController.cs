@@ -5,6 +5,8 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using SINF_EXAMPLE_WS.Models;
+using System.Web;
+using System.Xml.Linq;
 
 namespace SINF_EXAMPLE_WS.Controllers
 {
@@ -16,6 +18,13 @@ namespace SINF_EXAMPLE_WS.Controllers
         {
             return IntegrationPri.ListaProdutos();
         }
+
+        // GET api/Produtos/Top?serie=A&tipoDoc=FA&numDoc=1
+        public IEnumerable<object> GetTop()
+        {
+            return IntegrationPri.GetTopProdutos();
+        }
+
 
         // GET api/produto/5    
         public Produto Get(string id)

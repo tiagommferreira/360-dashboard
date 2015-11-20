@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Xml.Linq;
+using System.Xml.Serialization;
 
 namespace SINF_EXAMPLE_WS.Models
 {
@@ -118,6 +120,53 @@ namespace SINF_EXAMPLE_WS.Models
 
             return null;
         }
+
+
+        public static List<object> GetTopProdutos()
+        {
+            StdBELista objList;
+
+            List<object> listProdutos = new List<object>();
+            
+
+            if (PriEngine.InitializeCompany(SINF_EXAMPLE_WS.Properties.Settings.Default.Company.Trim(), SINF_EXAMPLE_WS.Properties.Settings.Default.User.Trim(), SINF_EXAMPLE_WS.Properties.Settings.Default.Password.Trim()) == true)
+            {
+
+                objList = PriEngine.Engine.Consulta("SELECT [LinhasDoc].[Artigo] AS Artigo, MAX([Artigo].[Descricao]) AS ArtigoDescricao, MAX([Artigo].[UnidadeBase]) AS UnidadeBase, SUM([LinhasDoc].[PrecoLiquido]) AS PrecoLiquido, SUM([LinhasDoc].[Quantidade])  AS Quantidade, SUM([LinhasDoc].[TotalIliquido])  AS PrecoILiquido  FROM   (((([CabecDoc] [CabecDoc] INNER JOIN [LinhasDoc] [LinhasDoc] ON [CabecDoc].[Id]=[LinhasDoc].[IdCabecDoc]) INNER JOIN[CabecDocStatus][CabecDocStatus] ON [CabecDoc].[Id]=[CabecDocStatus].[IdCabecDoc]) INNER JOIN [DocumentosVenda] [DocumentosVenda] ON [CabecDoc].[TipoDoc]=[DocumentosVenda].[Documento]) LEFT OUTER JOIN [Artigo] [Artigo] ON [LinhasDoc].[Artigo]=[Artigo].[Artigo]) LEFT OUTER JOIN [Artigo] [Artigo_1] ON [Artigo].[ArtigoPai]=[Artigo_1].[Artigo] WHERE ([CabecDoc].[Serie]=N'A' OR [CabecDoc].[Serie]=N'C' OR [CabecDoc].[Serie]=N'C_IVA') AND ([CabecDoc].[TipoDoc]=N'FA' OR [CabecDoc].[TipoDoc]=N'NC' OR [CabecDoc].[TipoDoc]=N'ORC' OR [CabecDoc].[TipoDoc]=N'VD') AND ([Artigo].[TipoArtigo]=N'0' OR [Artigo].[TipoArtigo]=N'1' OR [Artigo].[TipoArtigo]=N'10' OR [Artigo].[TipoArtigo]=N'11' OR [Artigo].[TipoArtigo]=N'12' OR [Artigo].[TipoArtigo]=N'13' OR [Artigo].[TipoArtigo]=N'14' OR [Artigo].[TipoArtigo]=N'15' OR [Artigo].[TipoArtigo]=N'2' OR [Artigo].[TipoArtigo]=N'3' OR [Artigo].[TipoArtigo]=N'4' OR [Artigo].[TipoArtigo]=N'5' OR [Artigo].[TipoArtigo]=N'51' OR [Artigo].[TipoArtigo]=N'6' OR [Artigo].[TipoArtigo]=N'7' OR [Artigo].[TipoArtigo]=N'8' OR [Artigo].[TipoArtigo]=N'9') AND ([LinhasDoc].[Data]>= '2014-01-01 00:00:00' AND [LinhasDoc].[Data]< '2015-11-21 00:00:00') AND [CabecDocStatus].[Anulado]=0 GROUP BY [LinhasDoc].[Artigo] ORDER BY Quantidade DESC");
+
+                while (!objList.NoFim())
+                {
+
+
+                    object dictionary = new
+                    {
+                        Artigo =  objList.Valor("Artigo"),
+                        ArtigoDescricao = objList.Valor("ArtigoDescricao"),
+                        UnidadeBase = objList.Valor("UnidadeBase"),
+                        PrecoLiquido = objList.Valor("PrecoLiquido"),
+                        PrecoIliquido = objList.Valor("PrecoILiquido"),
+                        Quantidade = objList.Valor("Quantidade")
+                    };
+                    /*
+                    dictionary.Add("Artigo", objList.Valor("Artigo"));
+                    dictionary.Add("Descricao", objList.Valor("ArtigoDescricao"));
+                    dictionary.Add("UnidadeBase", objList.Valor("UnidadeBase"));
+                    dictionary.Add("PrecoLiquido", objList.Valor("PrecoLiquido"));
+                    dictionary.Add("PrecoIliquido", objList.Valor("PrecoIliquido"));
+                    dictionary.Add("Quantidade", objList.Valor("Quantidade"));
+                    */
+                    listProdutos.Add(dictionary);
+
+                    objList.Seguinte();
+
+                }
+
+                return listProdutos;
+            }
+            else
+                return null;
+        }
+
 
         #endregion  
     
@@ -776,6 +825,7 @@ namespace SINF_EXAMPLE_WS.Models
         }
 
         #endregion
+
 
     }
 }

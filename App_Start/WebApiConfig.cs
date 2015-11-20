@@ -9,6 +9,10 @@ namespace SINF_EXAMPLE_WS
     {
         public static void Register(HttpConfiguration config)
         {
+            var json = config.Formatters.JsonFormatter;
+            json.SerializerSettings.PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.Objects;
+            config.Formatters.Remove(config.Formatters.XmlFormatter);
+
             config.Routes.MapHttpRoute(
                 name: "PaymentsApiRoute",
                 routeTemplate: "api/{controller}/Salarios",
@@ -19,6 +23,12 @@ namespace SINF_EXAMPLE_WS
                 name: "InvoicesApiRoute",
                 routeTemplate: "api/{controller}/Documento",
                 defaults: new { id = RouteParameter.Optional, action = "GetDocumento" }
+            );
+
+            config.Routes.MapHttpRoute(
+                name: "TopApiRoute",
+                routeTemplate: "api/{controller}/Top",
+                defaults: new { id = RouteParameter.Optional, action = "GetTop" }
             );
 
             config.Routes.MapHttpRoute(
