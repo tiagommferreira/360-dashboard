@@ -24,6 +24,11 @@ namespace SINF_EXAMPLE_WS.Controllers
         {
             return IntegrationPri.GetDocumentoCompra(serie, tipoDoc, numDoc);
         }
+
+        public IEnumerable<TransacaoInfo> GetInfo()
+        {
+            return IntegrationPri.GetCompraInfo();
+        }
         
     }
 }

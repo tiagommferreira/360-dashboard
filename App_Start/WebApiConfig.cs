@@ -26,6 +26,12 @@ namespace SINF_EXAMPLE_WS
             );
 
             config.Routes.MapHttpRoute(
+                name: "VendasInfoRoute",
+                routeTemplate: "api/{controller}/Info",
+                defaults: new { id = RouteParameter.Optional, action = "GetInfo" }
+            );
+
+            config.Routes.MapHttpRoute(
                 name: "TopApiRoute",
                 routeTemplate: "api/{controller}/Top",
                 defaults: new { id = RouteParameter.Optional, action = "GetTop" }
@@ -36,6 +42,8 @@ namespace SINF_EXAMPLE_WS
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional, action = "Get" }
             );
+
+            
 
             // Uncomment the following line of code to enable query support for actions with an IQueryable or IQueryable<T> return type.
             // To avoid processing unexpected or malicious queries, use the validation settings on QueryableAttribute to validate incoming queries.
