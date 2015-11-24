@@ -26,10 +26,12 @@ namespace SINF_EXAMPLE_WS.Controllers
 
             var vendasInfoResponse = await client.GetAsync("http://localhost:49990/api/Vendas/Info");
             var vendasInfo = await vendasInfoResponse.Content.ReadAsAsync < IEnumerable<TransacaoInfo>>();
-            
+
+
             ViewBag.Sales = sales;
             ViewBag.Funcionarios = funcionarios;
             ViewBag.TopProdutos = topProducts;
+            ViewBag.Vendas = vendasInfo;
 
             return View(sales);
         }

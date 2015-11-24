@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Web.Http;
+using System.Web.UI;
 using SINF_EXAMPLE_WS.Models;
+using System.Web;
+using System.Web.Http;
 
 
 namespace SINF_EXAMPLE_WS.Controllers
@@ -28,7 +30,9 @@ namespace SINF_EXAMPLE_WS.Controllers
 
         public IEnumerable<TransacaoInfo> GetInfo()
         {
-            return IntegrationPri.GetVendaInfo();
+            string year = HttpContext.Current.Request.QueryString["year"];
+            
+            return IntegrationPri.GetVendaInfo(year);
         }
     }
 }

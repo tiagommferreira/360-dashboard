@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using SINF_EXAMPLE_WS.Models;
+using System.Web;
 
 namespace SINF_EXAMPLE_WS.Controllers
 {
@@ -27,7 +28,8 @@ namespace SINF_EXAMPLE_WS.Controllers
 
         public IEnumerable<TransacaoInfo> GetInfo()
         {
-            return IntegrationPri.GetCompraInfo();
+            string year = HttpContext.Current.Request.QueryString["year"];
+            return IntegrationPri.GetCompraInfo(year);
         }
         
     }

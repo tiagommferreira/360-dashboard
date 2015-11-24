@@ -122,7 +122,7 @@ namespace SINF_EXAMPLE_WS.Models
         }
 
 
-        public static List<object> GetTopProdutos()
+        public static List<object> GetTopProdutos(string required)
         {
             StdBELista objList;
 
@@ -131,12 +131,19 @@ namespace SINF_EXAMPLE_WS.Models
 
             if (PriEngine.InitializeCompany(SINF_EXAMPLE_WS.Properties.Settings.Default.Company.Trim(), SINF_EXAMPLE_WS.Properties.Settings.Default.User.Trim(), SINF_EXAMPLE_WS.Properties.Settings.Default.Password.Trim()) == true)
             {
+                string queryNoRequiredFilter = "SELECT [LinhasDoc].[Artigo] AS Artigo, MAX([Artigo].[Descricao]) AS ArtigoDescricao, MAX([Artigo].[UnidadeBase]) AS UnidadeBase, SUM([LinhasDoc].[PrecoLiquido]) AS PrecoLiquido, SUM([LinhasDoc].[Quantidade])  AS Quantidade, SUM([LinhasDoc].[TotalIliquido])  AS PrecoILiquido  FROM   (((([CabecDoc] [CabecDoc] INNER JOIN [LinhasDoc] [LinhasDoc] ON [CabecDoc].[Id]=[LinhasDoc].[IdCabecDoc]) INNER JOIN[CabecDocStatus][CabecDocStatus] ON [CabecDoc].[Id]=[CabecDocStatus].[IdCabecDoc]) INNER JOIN [DocumentosVenda] [DocumentosVenda] ON [CabecDoc].[TipoDoc]=[DocumentosVenda].[Documento]) LEFT OUTER JOIN [Artigo] [Artigo] ON [LinhasDoc].[Artigo]=[Artigo].[Artigo]) LEFT OUTER JOIN [Artigo] [Artigo_1] ON [Artigo].[ArtigoPai]=[Artigo_1].[Artigo] WHERE ([CabecDoc].[Serie]=N'A' OR [CabecDoc].[Serie]=N'C' OR [CabecDoc].[Serie]=N'C_IVA') AND ([CabecDoc].[TipoDoc]=N'FA' OR [CabecDoc].[TipoDoc]=N'NC' OR [CabecDoc].[TipoDoc]=N'ORC' OR [CabecDoc].[TipoDoc]=N'VD') AND ([Artigo].[TipoArtigo]=N'0' OR [Artigo].[TipoArtigo]=N'1' OR [Artigo].[TipoArtigo]=N'10' OR [Artigo].[TipoArtigo]=N'11' OR [Artigo].[TipoArtigo]=N'12' OR [Artigo].[TipoArtigo]=N'13' OR [Artigo].[TipoArtigo]=N'14' OR [Artigo].[TipoArtigo]=N'15' OR [Artigo].[TipoArtigo]=N'2' OR [Artigo].[TipoArtigo]=N'3' OR [Artigo].[TipoArtigo]=N'4' OR [Artigo].[TipoArtigo]=N'5' OR [Artigo].[TipoArtigo]=N'51' OR [Artigo].[TipoArtigo]=N'6' OR [Artigo].[TipoArtigo]=N'7' OR [Artigo].[TipoArtigo]=N'8' OR [Artigo].[TipoArtigo]=N'9') AND ([LinhasDoc].[Data]>= '2014-01-01 00:00:00' AND [LinhasDoc].[Data]< '2015-11-21 00:00:00') AND [CabecDocStatus].[Anulado]=0 GROUP BY [LinhasDoc].[Artigo] ORDER BY Quantidade DESC";
+                string query = queryNoRequiredFilter;
+               
+                objList = PriEngine.Engine.Consulta(query);
+                int counter = 0;
+                int requiredNumber = objList.NumLinhas();
+                if (required != null){
+                    requiredNumber = Int32.Parse(required);
+                }
+                
 
-                objList = PriEngine.Engine.Consulta("SELECT [LinhasDoc].[Artigo] AS Artigo, MAX([Artigo].[Descricao]) AS ArtigoDescricao, MAX([Artigo].[UnidadeBase]) AS UnidadeBase, SUM([LinhasDoc].[PrecoLiquido]) AS PrecoLiquido, SUM([LinhasDoc].[Quantidade])  AS Quantidade, SUM([LinhasDoc].[TotalIliquido])  AS PrecoILiquido  FROM   (((([CabecDoc] [CabecDoc] INNER JOIN [LinhasDoc] [LinhasDoc] ON [CabecDoc].[Id]=[LinhasDoc].[IdCabecDoc]) INNER JOIN[CabecDocStatus][CabecDocStatus] ON [CabecDoc].[Id]=[CabecDocStatus].[IdCabecDoc]) INNER JOIN [DocumentosVenda] [DocumentosVenda] ON [CabecDoc].[TipoDoc]=[DocumentosVenda].[Documento]) LEFT OUTER JOIN [Artigo] [Artigo] ON [LinhasDoc].[Artigo]=[Artigo].[Artigo]) LEFT OUTER JOIN [Artigo] [Artigo_1] ON [Artigo].[ArtigoPai]=[Artigo_1].[Artigo] WHERE ([CabecDoc].[Serie]=N'A' OR [CabecDoc].[Serie]=N'C' OR [CabecDoc].[Serie]=N'C_IVA') AND ([CabecDoc].[TipoDoc]=N'FA' OR [CabecDoc].[TipoDoc]=N'NC' OR [CabecDoc].[TipoDoc]=N'ORC' OR [CabecDoc].[TipoDoc]=N'VD') AND ([Artigo].[TipoArtigo]=N'0' OR [Artigo].[TipoArtigo]=N'1' OR [Artigo].[TipoArtigo]=N'10' OR [Artigo].[TipoArtigo]=N'11' OR [Artigo].[TipoArtigo]=N'12' OR [Artigo].[TipoArtigo]=N'13' OR [Artigo].[TipoArtigo]=N'14' OR [Artigo].[TipoArtigo]=N'15' OR [Artigo].[TipoArtigo]=N'2' OR [Artigo].[TipoArtigo]=N'3' OR [Artigo].[TipoArtigo]=N'4' OR [Artigo].[TipoArtigo]=N'5' OR [Artigo].[TipoArtigo]=N'51' OR [Artigo].[TipoArtigo]=N'6' OR [Artigo].[TipoArtigo]=N'7' OR [Artigo].[TipoArtigo]=N'8' OR [Artigo].[TipoArtigo]=N'9') AND ([LinhasDoc].[Data]>= '2014-01-01 00:00:00' AND [LinhasDoc].[Data]< '2015-11-21 00:00:00') AND [CabecDocStatus].[Anulado]=0 GROUP BY [LinhasDoc].[Artigo] ORDER BY Quantidade DESC");
-
-                while (!objList.NoFim())
+                while (!objList.NoFim() && counter < requiredNumber )
                 {
-
 
                     object dictionary = new
                     {
@@ -147,6 +154,7 @@ namespace SINF_EXAMPLE_WS.Models
                         PrecoIliquido = objList.Valor("PrecoILiquido"),
                         Quantidade = objList.Valor("Quantidade")
                     };
+                    counter++;
                     /*
                     dictionary.Add("Artigo", objList.Valor("Artigo"));
                     dictionary.Add("Descricao", objList.Valor("ArtigoDescricao"));
@@ -172,13 +180,21 @@ namespace SINF_EXAMPLE_WS.Models
     
         #region Compras
 
-        public static List<TransacaoInfo> GetCompraInfo()
+        public static List<TransacaoInfo> GetCompraInfo(string year)
         {
             StdBELista objList;
             List<TransacaoInfo> list = new List<TransacaoInfo>();
             if (PriEngine.InitializeCompany(SINF_EXAMPLE_WS.Properties.Settings.Default.Company.Trim(), SINF_EXAMPLE_WS.Properties.Settings.Default.User.Trim(), SINF_EXAMPLE_WS.Properties.Settings.Default.Password.Trim()) == true)
             {
-                objList = PriEngine.Engine.Consulta("SELECT YEAR(\"LinhasCompras\".\"DataDoc\") AS \"Ano\", MONTH(\"LinhasCompras\".\"DataDoc\") AS \"Mes\" ,SUM(\"LinhasCompras\".\"Quantidade\" * \"LinhasCompras\".\"PrecoLiquido\") AS \"Valor\" FROM   (((\"CabecComprasStatus\" \"CabecComprasStatus\" INNER JOIN \"CabecCompras\" \"CabecCompras\" ON \"CabecComprasStatus\".\"IdCabecCompras\"=\"CabecCompras\".\"Id\") INNER JOIN \"LinhasCompras\" \"LinhasCompras\" ON \"CabecCompras\".\"Id\"=\"LinhasCompras\".\"IdCabecCompras\")	LEFT OUTER JOIN \"Artigo\" \"Artigo\" ON \"LinhasCompras\".\"Artigo\"=\"Artigo\".\"Artigo\") LEFT OUTER JOIN \"Artigo\" \"Artigo_1\" ON \"Artigo\".\"ArtigoPai\"=\"Artigo_1\".\"Artigo\" WHERE  (\"CabecCompras\".\"TipoEntidade\"=N'F' OR \"CabecCompras\".\"TipoEntidade\"=N'I' OR \"CabecCompras\".\"TipoEntidade\"=N'R') AND \"CabecCompras\".\"Serie\"=N'A' AND (\"CabecCompras\".\"TipoDoc\"=N'VFA' OR \"CabecCompras\".\"TipoDoc\"=N'VFP' OR \"CabecCompras\".\"TipoDoc\"=N'VFR' OR \"CabecCompras\".\"TipoDoc\"=N'VGR' OR \"CabecCompras\".\"TipoDoc\"=N'VNC' OR \"CabecCompras\".\"TipoDoc\"=N'VVD') AND (\"Artigo\".\"TipoArtigo\"=N'0' OR \"Artigo\".\"TipoArtigo\"=N'1' OR \"Artigo\".\"TipoArtigo\"=N'10' OR \"Artigo\".\"TipoArtigo\"=N'11' OR \"Artigo\".\"TipoArtigo\"=N'12' OR \"Artigo\".\"TipoArtigo\"=N'13' OR \"Artigo\".\"TipoArtigo\"=N'14' OR \"Artigo\".\"TipoArtigo\"=N'15' OR \"Artigo\".\"TipoArtigo\"=N'2' OR \"Artigo\".\"TipoArtigo\"=N'3' OR \"Artigo\".\"TipoArtigo\"=N'4' OR \"Artigo\".\"TipoArtigo\"=N'5' OR \"Artigo\".\"TipoArtigo\"=N'51' OR \"Artigo\".\"TipoArtigo\"=N'6' OR \"Artigo\".\"TipoArtigo\"=N'7' OR \"Artigo\".\"TipoArtigo\"=N'8' OR \"Artigo\".\"TipoArtigo\"=N'9') AND \"CabecComprasStatus\".\"Anulado\"=0 GROUP BY YEAR(\"LinhasCompras\".\"DataDoc\"), MONTH(\"LinhasCompras\".\"DataDoc\") ORDER BY YEAR(\"LinhasCompras\".\"DataDoc\")");
+
+                string queryNoYearFilter = "SELECT YEAR(\"LinhasCompras\".\"DataDoc\") AS \"Ano\", MONTH(\"LinhasCompras\".\"DataDoc\") AS \"Mes\" ,SUM(\"LinhasCompras\".\"Quantidade\" * \"LinhasCompras\".\"PrecoLiquido\") AS \"Valor\" FROM   (((\"CabecComprasStatus\" \"CabecComprasStatus\" INNER JOIN \"CabecCompras\" \"CabecCompras\" ON \"CabecComprasStatus\".\"IdCabecCompras\"=\"CabecCompras\".\"Id\") INNER JOIN \"LinhasCompras\" \"LinhasCompras\" ON \"CabecCompras\".\"Id\"=\"LinhasCompras\".\"IdCabecCompras\")	LEFT OUTER JOIN \"Artigo\" \"Artigo\" ON \"LinhasCompras\".\"Artigo\"=\"Artigo\".\"Artigo\") LEFT OUTER JOIN \"Artigo\" \"Artigo_1\" ON \"Artigo\".\"ArtigoPai\"=\"Artigo_1\".\"Artigo\" WHERE  (\"CabecCompras\".\"TipoEntidade\"=N'F' OR \"CabecCompras\".\"TipoEntidade\"=N'I' OR \"CabecCompras\".\"TipoEntidade\"=N'R') AND \"CabecCompras\".\"Serie\"=N'A' AND (\"CabecCompras\".\"TipoDoc\"=N'VFA' OR \"CabecCompras\".\"TipoDoc\"=N'VFP' OR \"CabecCompras\".\"TipoDoc\"=N'VFR' OR \"CabecCompras\".\"TipoDoc\"=N'VGR' OR \"CabecCompras\".\"TipoDoc\"=N'VNC' OR \"CabecCompras\".\"TipoDoc\"=N'VVD') AND (\"Artigo\".\"TipoArtigo\"=N'0' OR \"Artigo\".\"TipoArtigo\"=N'1' OR \"Artigo\".\"TipoArtigo\"=N'10' OR \"Artigo\".\"TipoArtigo\"=N'11' OR \"Artigo\".\"TipoArtigo\"=N'12' OR \"Artigo\".\"TipoArtigo\"=N'13' OR \"Artigo\".\"TipoArtigo\"=N'14' OR \"Artigo\".\"TipoArtigo\"=N'15' OR \"Artigo\".\"TipoArtigo\"=N'2' OR \"Artigo\".\"TipoArtigo\"=N'3' OR \"Artigo\".\"TipoArtigo\"=N'4' OR \"Artigo\".\"TipoArtigo\"=N'5' OR \"Artigo\".\"TipoArtigo\"=N'51' OR \"Artigo\".\"TipoArtigo\"=N'6' OR \"Artigo\".\"TipoArtigo\"=N'7' OR \"Artigo\".\"TipoArtigo\"=N'8' OR \"Artigo\".\"TipoArtigo\"=N'9') AND \"CabecComprasStatus\".\"Anulado\"=0 GROUP BY YEAR(\"LinhasCompras\".\"DataDoc\"), MONTH(\"LinhasCompras\".\"DataDoc\") ORDER BY YEAR(\"LinhasCompras\".\"DataDoc\")";
+                string queryYearFiltered = "SELECT YEAR(\"LinhasCompras\".\"DataDoc\") AS \"Ano\", MONTH(\"LinhasCompras\".\"DataDoc\") AS \"Mes\" ,SUM(\"LinhasCompras\".\"Quantidade\" * \"LinhasCompras\".\"PrecoLiquido\") AS \"Valor\" FROM   (((\"CabecComprasStatus\" \"CabecComprasStatus\" INNER JOIN \"CabecCompras\" \"CabecCompras\" ON \"CabecComprasStatus\".\"IdCabecCompras\"=\"CabecCompras\".\"Id\") INNER JOIN \"LinhasCompras\" \"LinhasCompras\" ON \"CabecCompras\".\"Id\"=\"LinhasCompras\".\"IdCabecCompras\")	LEFT OUTER JOIN \"Artigo\" \"Artigo\" ON \"LinhasCompras\".\"Artigo\"=\"Artigo\".\"Artigo\") LEFT OUTER JOIN \"Artigo\" \"Artigo_1\" ON \"Artigo\".\"ArtigoPai\"=\"Artigo_1\".\"Artigo\" WHERE  (\"CabecCompras\".\"TipoEntidade\"=N'F' OR \"CabecCompras\".\"TipoEntidade\"=N'I' OR \"CabecCompras\".\"TipoEntidade\"=N'R') AND \"CabecCompras\".\"Serie\"=N'A' AND (\"CabecCompras\".\"TipoDoc\"=N'VFA' OR \"CabecCompras\".\"TipoDoc\"=N'VFP' OR \"CabecCompras\".\"TipoDoc\"=N'VFR' OR \"CabecCompras\".\"TipoDoc\"=N'VGR' OR \"CabecCompras\".\"TipoDoc\"=N'VNC' OR \"CabecCompras\".\"TipoDoc\"=N'VVD') AND (\"Artigo\".\"TipoArtigo\"=N'0' OR \"Artigo\".\"TipoArtigo\"=N'1' OR \"Artigo\".\"TipoArtigo\"=N'10' OR \"Artigo\".\"TipoArtigo\"=N'11' OR \"Artigo\".\"TipoArtigo\"=N'12' OR \"Artigo\".\"TipoArtigo\"=N'13' OR \"Artigo\".\"TipoArtigo\"=N'14' OR \"Artigo\".\"TipoArtigo\"=N'15' OR \"Artigo\".\"TipoArtigo\"=N'2' OR \"Artigo\".\"TipoArtigo\"=N'3' OR \"Artigo\".\"TipoArtigo\"=N'4' OR \"Artigo\".\"TipoArtigo\"=N'5' OR \"Artigo\".\"TipoArtigo\"=N'51' OR \"Artigo\".\"TipoArtigo\"=N'6' OR \"Artigo\".\"TipoArtigo\"=N'7' OR \"Artigo\".\"TipoArtigo\"=N'8' OR \"Artigo\".\"TipoArtigo\"=N'9') AND \"CabecComprasStatus\".\"Anulado\"=0 AND YEAR(\"LinhasCompras\".\"DataDoc\") = " + year + " GROUP BY YEAR(\"LinhasCompras\".\"DataDoc\"), MONTH(\"LinhasCompras\".\"DataDoc\") ORDER BY YEAR(\"LinhasCompras\".\"DataDoc\")";
+                string query = queryNoYearFilter;
+                if (year != null)
+                    query = queryYearFiltered;
+
+
+                objList = PriEngine.Engine.Consulta(query);
 
                 while (!objList.NoFim())
                 {
@@ -285,13 +301,20 @@ namespace SINF_EXAMPLE_WS.Models
 
         #region Vendas
 
-        public static List<TransacaoInfo> GetVendaInfo()
+        public static List<TransacaoInfo> GetVendaInfo(string year)
         {
             StdBELista objList;
             List<TransacaoInfo> list = new List<TransacaoInfo>();
             if (PriEngine.InitializeCompany(SINF_EXAMPLE_WS.Properties.Settings.Default.Company.Trim(), SINF_EXAMPLE_WS.Properties.Settings.Default.User.Trim(), SINF_EXAMPLE_WS.Properties.Settings.Default.Password.Trim()) == true)
             {
-                objList = PriEngine.Engine.Consulta("SELECT YEAR(\"LinhasDoc\".\"Data\") AS \"Ano\",MONTH(\"LinhasDoc\".\"Data\") AS \"Mes\", SUM(\"LinhasDoc\".\"PrecoLiquido\" * \"LinhasDoc\".\"Quantidade\") AS \"Valor\" FROM ((((\"CabecDoc\" \"CabecDoc\" INNER JOIN \"LinhasDoc\" \"LinhasDoc\" ON \"CabecDoc\".\"Id\"=\"LinhasDoc\".\"IdCabecDoc\") INNER JOIN \"CabecDocStatus\" \"CabecDocStatus\" ON \"CabecDoc\".\"Id\"=\"CabecDocStatus\".\"IdCabecDoc\") INNER JOIN \"DocumentosVenda\" \"DocumentosVenda\" ON \"CabecDoc\".\"TipoDoc\"=\"DocumentosVenda\".\"Documento\") LEFT OUTER JOIN \"Artigo\" \"Artigo\" ON \"LinhasDoc\".\"Artigo\"=\"Artigo\".\"Artigo\") LEFT OUTER JOIN \"Artigo\" \"Artigo_1\" ON \"Artigo\".\"ArtigoPai\"=\"Artigo_1\".\"Artigo\" WHERE  (\"CabecDoc\".\"Serie\"=N'A' OR \"CabecDoc\".\"Serie\"=N'C' OR \"CabecDoc\".\"Serie\"=N'C_IVA') AND (\"CabecDoc\".\"TipoDoc\"=N'FA' OR \"CabecDoc\".\"TipoDoc\"=N'NC' OR \"CabecDoc\".\"TipoDoc\"=N'ORC' OR \"CabecDoc\".\"TipoDoc\"=N'VD') AND (\"Artigo\".\"TipoArtigo\"=N'0' OR \"Artigo\".\"TipoArtigo\"=N'1' OR \"Artigo\".\"TipoArtigo\"=N'11' OR \"Artigo\".\"TipoArtigo\"=N'12' OR \"Artigo\".\"TipoArtigo\"=N'13' OR \"Artigo\".\"TipoArtigo\"=N'14' OR \"Artigo\".\"TipoArtigo\"=N'15' OR \"Artigo\".\"TipoArtigo\"=N'2' OR \"Artigo\".\"TipoArtigo\"=N'3' OR \"Artigo\".\"TipoArtigo\"=N'4' OR \"Artigo\".\"TipoArtigo\"=N'5' OR \"Artigo\".\"TipoArtigo\"=N'51' OR \"Artigo\".\"TipoArtigo\"=N'6' OR \"Artigo\".\"TipoArtigo\"=N'7' OR \"Artigo\".\"TipoArtigo\"=N'8' OR \"Artigo\".\"TipoArtigo\"=N'9') AND \"CabecDocStatus\".\"Anulado\"=0 AND \"DocumentosVenda\".\"PagarReceber\"='R' GROUP BY YEAR(\"LinhasDoc\".\"Data\"), MONTH(\"LinhasDoc\".\"Data\") ORDER BY YEAR(\"LinhasDoc\".\"Data\")");
+                string queryNoYearFilter = "SELECT YEAR(\"LinhasDoc\".\"Data\") AS \"Ano\",MONTH(\"LinhasDoc\".\"Data\") AS \"Mes\", SUM(\"LinhasDoc\".\"PrecoLiquido\" * \"LinhasDoc\".\"Quantidade\") AS \"Valor\" FROM ((((\"CabecDoc\" \"CabecDoc\" INNER JOIN \"LinhasDoc\" \"LinhasDoc\" ON \"CabecDoc\".\"Id\"=\"LinhasDoc\".\"IdCabecDoc\") INNER JOIN \"CabecDocStatus\" \"CabecDocStatus\" ON \"CabecDoc\".\"Id\"=\"CabecDocStatus\".\"IdCabecDoc\") INNER JOIN \"DocumentosVenda\" \"DocumentosVenda\" ON \"CabecDoc\".\"TipoDoc\"=\"DocumentosVenda\".\"Documento\") LEFT OUTER JOIN \"Artigo\" \"Artigo\" ON \"LinhasDoc\".\"Artigo\"=\"Artigo\".\"Artigo\") LEFT OUTER JOIN \"Artigo\" \"Artigo_1\" ON \"Artigo\".\"ArtigoPai\"=\"Artigo_1\".\"Artigo\" WHERE  (\"CabecDoc\".\"Serie\"=N'A' OR \"CabecDoc\".\"Serie\"=N'C' OR \"CabecDoc\".\"Serie\"=N'C_IVA') AND (\"CabecDoc\".\"TipoDoc\"=N'FA' OR \"CabecDoc\".\"TipoDoc\"=N'NC' OR \"CabecDoc\".\"TipoDoc\"=N'ORC' OR \"CabecDoc\".\"TipoDoc\"=N'VD') AND (\"Artigo\".\"TipoArtigo\"=N'0' OR \"Artigo\".\"TipoArtigo\"=N'1' OR \"Artigo\".\"TipoArtigo\"=N'11' OR \"Artigo\".\"TipoArtigo\"=N'12' OR \"Artigo\".\"TipoArtigo\"=N'13' OR \"Artigo\".\"TipoArtigo\"=N'14' OR \"Artigo\".\"TipoArtigo\"=N'15' OR \"Artigo\".\"TipoArtigo\"=N'2' OR \"Artigo\".\"TipoArtigo\"=N'3' OR \"Artigo\".\"TipoArtigo\"=N'4' OR \"Artigo\".\"TipoArtigo\"=N'5' OR \"Artigo\".\"TipoArtigo\"=N'51' OR \"Artigo\".\"TipoArtigo\"=N'6' OR \"Artigo\".\"TipoArtigo\"=N'7' OR \"Artigo\".\"TipoArtigo\"=N'8' OR \"Artigo\".\"TipoArtigo\"=N'9') AND \"CabecDocStatus\".\"Anulado\"=0 AND \"DocumentosVenda\".\"PagarReceber\"='R' GROUP BY YEAR(\"LinhasDoc\".\"Data\"), MONTH(\"LinhasDoc\".\"Data\") ORDER BY YEAR(\"LinhasDoc\".\"Data\")";
+                string queryYearFiltered =  "SELECT YEAR(\"LinhasDoc\".\"Data\") AS \"Ano\",MONTH(\"LinhasDoc\".\"Data\") AS \"Mes\", SUM(\"LinhasDoc\".\"PrecoLiquido\" * \"LinhasDoc\".\"Quantidade\") AS \"Valor\" FROM ((((\"CabecDoc\" \"CabecDoc\" INNER JOIN \"LinhasDoc\" \"LinhasDoc\" ON \"CabecDoc\".\"Id\"=\"LinhasDoc\".\"IdCabecDoc\") INNER JOIN \"CabecDocStatus\" \"CabecDocStatus\" ON \"CabecDoc\".\"Id\"=\"CabecDocStatus\".\"IdCabecDoc\") INNER JOIN \"DocumentosVenda\" \"DocumentosVenda\" ON \"CabecDoc\".\"TipoDoc\"=\"DocumentosVenda\".\"Documento\") LEFT OUTER JOIN \"Artigo\" \"Artigo\" ON \"LinhasDoc\".\"Artigo\"=\"Artigo\".\"Artigo\") LEFT OUTER JOIN \"Artigo\" \"Artigo_1\" ON \"Artigo\".\"ArtigoPai\"=\"Artigo_1\".\"Artigo\" WHERE  (\"CabecDoc\".\"Serie\"=N'A' OR \"CabecDoc\".\"Serie\"=N'C' OR \"CabecDoc\".\"Serie\"=N'C_IVA') AND (\"CabecDoc\".\"TipoDoc\"=N'FA' OR \"CabecDoc\".\"TipoDoc\"=N'NC' OR \"CabecDoc\".\"TipoDoc\"=N'ORC' OR \"CabecDoc\".\"TipoDoc\"=N'VD') AND (\"Artigo\".\"TipoArtigo\"=N'0' OR \"Artigo\".\"TipoArtigo\"=N'1' OR \"Artigo\".\"TipoArtigo\"=N'11' OR \"Artigo\".\"TipoArtigo\"=N'12' OR \"Artigo\".\"TipoArtigo\"=N'13' OR \"Artigo\".\"TipoArtigo\"=N'14' OR \"Artigo\".\"TipoArtigo\"=N'15' OR \"Artigo\".\"TipoArtigo\"=N'2' OR \"Artigo\".\"TipoArtigo\"=N'3' OR \"Artigo\".\"TipoArtigo\"=N'4' OR \"Artigo\".\"TipoArtigo\"=N'5' OR \"Artigo\".\"TipoArtigo\"=N'51' OR \"Artigo\".\"TipoArtigo\"=N'6' OR \"Artigo\".\"TipoArtigo\"=N'7' OR \"Artigo\".\"TipoArtigo\"=N'8' OR \"Artigo\".\"TipoArtigo\"=N'9') AND \"CabecDocStatus\".\"Anulado\"=0 AND \"DocumentosVenda\".\"PagarReceber\"='R' AND YEAR(\"LinhasDoc\".\"Data\") = " + year + " GROUP BY YEAR(\"LinhasDoc\".\"Data\"), MONTH(\"LinhasDoc\".\"Data\") ORDER BY YEAR(\"LinhasDoc\".\"Data\")";
+                
+                string query = queryNoYearFilter;
+                if(year != null)
+                    query = queryYearFiltered;
+
+                objList = PriEngine.Engine.Consulta(query);
 
                 while (!objList.NoFim())
                 {

@@ -22,7 +22,9 @@ namespace SINF_EXAMPLE_WS.Controllers
         // GET api/Produtos/Top?serie=A&tipoDoc=FA&numDoc=1
         public IEnumerable<object> GetTop()
         {
-            return IntegrationPri.GetTopProdutos();
+
+            string required = HttpContext.Current.Request.QueryString["required"];
+            return IntegrationPri.GetTopProdutos(required);
         }
 
 
