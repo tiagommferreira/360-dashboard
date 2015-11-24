@@ -31,8 +31,9 @@ namespace SINF_EXAMPLE_WS.Controllers
         public IEnumerable<TransacaoInfo> GetInfo()
         {
             string year = HttpContext.Current.Request.QueryString["year"];
+            string product = HttpContext.Current.Request.QueryString["product"];
             
-            return IntegrationPri.GetVendaInfo(year);
+            return IntegrationPri.GetVendaInfo(year, product);
         }
     }
 }

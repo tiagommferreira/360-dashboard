@@ -10,6 +10,8 @@
     </ol>
 </section>
 
+@ViewBag.Vendas
+
 <!-- Main content -->
 <section class="content">
     <!-- Small boxes (Stat box) -->
@@ -162,12 +164,6 @@
     var ctx = $("#top-products-chart").get(0).getContext("2d");
     var myLineChart;
     var myDoughnutChart;
-
-    var artigos = [
-        { nome: '@ViewBag.TopProdutos[0].ArtigoDescricao', quantidadeVendida: '@ViewBag.TopProdutos[0].Quantidade' },
-        { nome: '@ViewBag.TopProdutos[1].ArtigoDescricao', quantidadeVendida: '@ViewBag.TopProdutos[1].Quantidade' },
-        { nome: '@ViewBag.TopProdutos[2].ArtigoDescricao', quantidadeVendida: '@ViewBag.TopProdutos[2].Quantidade' },
-    ];
 
     $("#transacoes-ano").change(function () {
         transactionsChart($("#transacoes-ano").val());
