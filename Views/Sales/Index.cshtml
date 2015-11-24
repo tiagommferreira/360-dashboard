@@ -14,6 +14,34 @@
 <section class="content">
     <!-- Small boxes (Stat box) -->
     <div class="row">
+        <div class="col-lg-6">
+            <h2>Vendas</h2>
+            <select id="vendas-ano">
+                <option value="2013">2013</option>
+                <option value="2014">2014</option>
+                <option value="2015">2015</option>
+            </select><br />
+            <canvas data-url="/api/Vendas/Info" id="vendas-chart" height="400" width="500"></canvas>
+        </div>
+        <div class="col-lg-6">
+            <h2>Produtos</h2>
+            <select id="produto">
+                @foreach (var x in ViewBag.Produtos)
+                {
+                    <option value="@x.CodProduto">@x.Descricao</option>
+                }
+                
+            </select>
+            <select id="produto-ano">
+                <option value="2013">2013</option>
+                <option value="2014">2014</option>
+                <option value="2015">2015</option>
+            </select>
+            <br />
+            <canvas data-url="/api/Vendas/Info" id="produtos-chart" height="400" width="500"></canvas>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-lg-12 col-xs-12">
             <table id="sales_table" class="display" cellspacing="0" width="100%">
                 <thead>
@@ -42,7 +70,7 @@
                             <td align="right" style="width:80px">
                                 @(@x.TotalDesc + @x.TotalEcotaxa + @x.TotalIEC + @x.TotalMerc)
                             </td>
-                            <td><a href="@Url.Action("View", "Sales", new { serie = @x.Serie, tipoDoc= @x.TipoDoc, numDoc= @x.NumDoc })"> @((x.Descricao == null) ? "n/a" : x.Descricao)</a>
+                            <td><a href="@Url.Action("View", "Sales", new { serie = @x.Serie, tipoDoc = @x.TipoDoc, numDoc = @x.NumDoc })"> @((x.Descricao == null) ? "n/a" : x.Descricao)</a>
                                
                             </td>
 
@@ -55,6 +83,8 @@
     </div><!-- /.row -->
 
 </section><!-- /.content -->
+
+<script src="/Scripts/scripts/sales-charts.js"></script>
 
 <script>
     $(document).ready(function () {

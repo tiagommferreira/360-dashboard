@@ -17,6 +17,10 @@ namespace SINF_EXAMPLE_WS.Controllers
             var response = await client.GetAsync("http://localhost:49990/api/Vendas");
             var vendas = await response.Content.ReadAsAsync<IEnumerable<Venda>>();
 
+            response = await client.GetAsync("http://localhost:49990/api/Produtos");
+            var produtos = await response.Content.ReadAsAsync<IEnumerable<Produto>>();
+
+            ViewBag.Produtos = produtos;
             ViewBag.Vendas = vendas;
             return View(vendas);
         }
@@ -26,7 +30,7 @@ namespace SINF_EXAMPLE_WS.Controllers
             System.Diagnostics.Debug.WriteLine(serie + " " + tipoDoc + " " + numDoc);
             var client = new HttpClient();
             var response = await client.GetAsync("http://localhost:49990/api/Vendas/Documento?" + "serie=" + serie + "&tipoDoc=" + tipoDoc + "&numDoc=" +numDoc);
-            
+           
             var linhaDoc = await response.Content.ReadAsAsync<IEnumerable<LinhaDocumento>>();
 
             ViewBag.linhaDoc = linhaDoc;
