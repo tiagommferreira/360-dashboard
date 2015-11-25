@@ -30,8 +30,47 @@ var optionsDonutChart = {
 
 };
 
+
+var barChartOptions = {
+    //Boolean - Whether the scale should start at zero, or an order of magnitude down from the lowest value
+    scaleBeginAtZero: true,
+
+    //Boolean - Whether grid lines are shown across the chart
+    scaleShowGridLines: true,
+
+    //String - Colour of the grid lines
+    scaleGridLineColor: "rgba(0,0,0,.05)",
+
+    //Number - Width of the grid lines
+    scaleGridLineWidth: 1,
+
+    //Boolean - Whether to show horizontal lines (except X axis)
+    scaleShowHorizontalLines: true,
+
+    //Boolean - Whether to show vertical lines (except Y axis)
+    scaleShowVerticalLines: true,
+
+    //Boolean - If there is a stroke on each bar
+    barShowStroke: true,
+
+    //Number - Pixel width of the bar stroke
+    barStrokeWidth: 2,
+
+    //Number - Spacing between each of the X value sets
+    barValueSpacing: 5,
+
+    //Number - Spacing between data sets within X values
+    barDatasetSpacing: 1,
+
+    //String - A legend template
+    legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].fillColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>"
+
+};
+
 var ctx = $("#products-stock-chart").get(0).getContext("2d");
+var bctx = $("#products-out_of_stock-chart").get(0).getContext("2d");
 var produtosStockChart;
+var outOfStockChart;
 
 
 function produtosStockAjax(outOfStock, url) {
@@ -42,7 +81,7 @@ function produtosStockAjax(outOfStock, url) {
 }
 
 produtosStockChart();
-
+outOfStockBarChart();
 
 function produtosStockChart() {
     $.when(produtosStockAjax("False", $("#products-stock-chart").data("url")),
@@ -80,8 +119,39 @@ function produtosStockChart() {
                 },
             ];
             
-            produtosStockChart = new Chart(ctx).Doughnut(produtosData, optionsDonutChart);
+            outOfStockChart = new Chart(ctx).Doughnut(produtosData, optionsDonutChart);
     });
 }
 
+
+function outOfStockBarChart() {
+    $.when(produtosStockAjax("true", $("#products-out_of_stock-chart").data("url"))).done(function (dataOutStockProdutos) {
+            var produtosOutStock = [];
+            produtosOutStock = dataOutStockProdutos;
+
+            console.log(produtosOutStock);
+            var outStockData = [];
+            var outStockLabels = [];
+            for (i = 0; i < produtosOutStock.length && i < 10; i++) {
+                outStockData.push(-parseInt(produtosOutStock[i].StockAtual));
+                outStockLabels.push(produtosOutStock[i].CodProduto);
+            }
+
+            var data = {
+                labels: outStockLabels,
+                datasets: [
+                    {
+                        label: "Out of Stock Products",
+                        fillColor: "rgba(255,10,20,0.5)",
+                        strokeColor: "rgba(220,220,220,0.8)",
+                        highlightFill: "rgba(220,220,220,0.75)",
+                        highlightStroke: "rgba(220,220,220,1)",
+                        data: outStockData
+                    }
+                ]
+            };
+
+            outOfStockChart = new Chart(bctx).Bar(data, barChartOptions);
+        });
+}
 
