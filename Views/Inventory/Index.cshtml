@@ -12,6 +12,14 @@
 
 <!-- Main content -->
 <section class="content">
+
+    <div class="row">
+        <div class="col-lg-6">
+            <h2>Stock Status</h2>
+            <canvas data-url="/api/Produtos" id="products-stock-chart" height="400" width="500"></canvas>
+        </div>
+        <div class="col-lg-6"></div>
+    </div>
     <!-- Small boxes (Stat box) -->
     <div class="row">
         <div class="col-lg-12 col-xs-12">
@@ -20,7 +28,7 @@
                     <tr>
                         <td>Reference</tdalign>
                         <td>Name</td>
-                        <td align="right">Stock</td>
+                        <td align="right">Stock (UN)</td>
                         <td>Price (€)</td>
                         <td>Actions</td>
                     </tr>
@@ -31,7 +39,14 @@
                         <tr>
                             <td>@x.CodProduto</td>
                             <td>@x.Descricao</td>
-                            <td align="right">@x.StockAtual @x.UnidadeBase</td>
+                            @if(x.StockAtual <= 0) {
+                                <td align="right" style="color:red;"> @x.StockAtual</td>
+                            }
+                            else
+                            {
+                                <td align="right" style="color:green;"> @x.StockAtual </td>
+                            }
+ 
                             <td align="right">@x.PVP1</td>
                             <td align="right"><a href="@Url.Action("View", "Inventory", new { id = x.CodProduto })">Info</a></td>
                         </tr>
@@ -44,6 +59,7 @@
 
 </section><!-- /.content -->
 
+<script src="/Scripts/scripts/inventory-charts.js"></script>
 <script>
     $(document).ready(function () {
             $('#produtos_table').DataTable();

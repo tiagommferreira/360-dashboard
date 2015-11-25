@@ -65,19 +65,12 @@ namespace SINF_EXAMPLE_WS.Models
                 var query = "SELECT [ARTIGO].[ARTIGO] AS [artigo],[ARTIGO].[DESCRICAO] AS [descricao],[ARTIGO].[STKACTUAL] AS [stock] ,[ARTIGOMOEDA].[UNIDADE] AS [unidadeMonetaria],[ARTIGOMOEDA].[MOEDA] AS [moeda],[ARTIGOMOEDA].[PVP1] AS [PVP1],[ARTIGOMOEDA].[PVP2] AS [PVP2],[ARTIGOMOEDA].[PVP3] AS [PVP3] FROM [ARTIGO] WITH (NOLOCK) LEFT JOIN [ARTIGOMOEDA] WITH (NOLOCK) ON  [ARTIGO].[ARTIGO] = [ARTIGOMOEDA].[ARTIGO] WHERE ( (([ARTIGO].[TRATAMENTODIM] < 2 OR [ARTIGO].[TRATAMENTODIM] > 2 OR [ARTIGO].[TRATAMENTODIM] IS NULL ) AND ([ARTIGOMOEDA].[MOEDA] = 'EUR') AND ([ARTIGOMOEDA].[UNIDADE] = 'UN')) )";
                 if (outOfStock != null)
                 {
-                    var outOfStockString = ">";
-                    bool outOfStockBool = Convert.ToBoolean(outOfStock);
-                    if(outOfStockBool == true){
-                        outOfStockString = "<=";
+                    var outOfStockSignal = ">";
+                    if(outOfStock == "true"){
+                        outOfStockSignal = "<=";
                     }
-                    System.Diagnostics.Debug.WriteLine("Out of stock bool");
-                    System.Diagnostics.Debug.WriteLine(outOfStockBool);
-                    System.Diagnostics.Debug.WriteLine("Out of stock string");
-                    System.Diagnostics.Debug.WriteLine(outOfStockString);
-                    System.Diagnostics.Debug.WriteLine("Out of stock");
-                    System.Diagnostics.Debug.WriteLine(outOfStock);
-                    query = "SELECT [ARTIGO].[ARTIGO] AS [artigo],[ARTIGO].[DESCRICAO] AS [descricao],[ARTIGO].[STKACTUAL] AS [stock] ,[ARTIGOMOEDA].[UNIDADE] AS [unidadeMonetaria],[ARTIGOMOEDA].[MOEDA] AS [moeda],[ARTIGOMOEDA].[PVP1] AS [PVP1],[ARTIGOMOEDA].[PVP2] AS [PVP2],[ARTIGOMOEDA].[PVP3] AS [PVP3] FROM [ARTIGO] WITH (NOLOCK) LEFT JOIN [ARTIGOMOEDA] WITH (NOLOCK) ON  [ARTIGO].[ARTIGO] = [ARTIGOMOEDA].[ARTIGO] WHERE ( (([ARTIGO].[STKACTUAL] " + outOfStockString + " 0 ) AND ([ARTIGO].[TRATAMENTODIM] < 2 OR [ARTIGO].[TRATAMENTODIM] > 2 OR [ARTIGO].[TRATAMENTODIM] IS NULL ) AND ([ARTIGOMOEDA].[MOEDA] = 'EUR') AND ([ARTIGOMOEDA].[UNIDADE] = 'UN') )";
-                    
+
+                    query = "SELECT [ARTIGO].[ARTIGO] AS [artigo],[ARTIGO].[DESCRICAO] AS [descricao],[ARTIGO].[STKACTUAL] AS [stock] ,[ARTIGOMOEDA].[UNIDADE] AS [unidadeMonetaria],[ARTIGOMOEDA].[MOEDA] AS [moeda],[ARTIGOMOEDA].[PVP1] AS [PVP1],[ARTIGOMOEDA].[PVP2] AS [PVP2],[ARTIGOMOEDA].[PVP3] AS [PVP3] FROM [ARTIGO] WITH (NOLOCK) LEFT JOIN [ARTIGOMOEDA] WITH (NOLOCK) ON  [ARTIGO].[ARTIGO] = [ARTIGOMOEDA].[ARTIGO] WHERE ( (([ARTIGO].[STKACTUAL] " + outOfStockSignal + " 0 ) AND ([ARTIGO].[TRATAMENTODIM] < 2 OR [ARTIGO].[TRATAMENTODIM] > 2 OR [ARTIGO].[TRATAMENTODIM] IS NULL ) AND ([ARTIGOMOEDA].[MOEDA] = 'EUR') AND ([ARTIGOMOEDA].[UNIDADE] = 'UN')))";
                 }
                 objList = PriEngine.Engine.Consulta(query);
 

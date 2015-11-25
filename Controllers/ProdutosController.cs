@@ -16,7 +16,8 @@ namespace SINF_EXAMPLE_WS.Controllers
         // GET: /Produtos/
         public IEnumerable<Produto> Get()
         {
-            return IntegrationPri.ListaProdutos();
+            string oStock = HttpContext.Current.Request.QueryString["out_of_stock"];
+            return IntegrationPri.ListaProdutos(oStock);
         }
 
         // GET api/Produtos/Top?serie=A&tipoDoc=FA&numDoc=1
