@@ -22,7 +22,6 @@ namespace SINF_EXAMPLE_WS.Models
 
             if (PriEngine.InitializeCompany(SINF_EXAMPLE_WS.Properties.Settings.Default.Company.Trim(), SINF_EXAMPLE_WS.Properties.Settings.Default.User.Trim(), SINF_EXAMPLE_WS.Properties.Settings.Default.Password.Trim()) == true)
             {
-
                 //objList = PriEngine.Engine.Comercial.Clientes.LstClientes();
 
                 objList = PriEngine.Engine.Consulta("SELECT Cliente, Nome, Moeda, NumContrib as NumContribuinte, Fac_Mor AS campo_exemplo FROM  CLIENTES");
@@ -925,6 +924,51 @@ namespace SINF_EXAMPLE_WS.Models
 
         #endregion
 
+        #region
+
+        public static List<Encomenda> ListaEncomendas(string produto)
+        {
+            StdBELista objList;
+
+            List<Encomenda> listEncomendas = new List<Encomenda>();
+
+            if (PriEngine.InitializeCompany(SINF_EXAMPLE_WS.Properties.Settings.Default.Company.Trim(), SINF_EXAMPLE_WS.Properties.Settings.Default.User.Trim(), SINF_EXAMPLE_WS.Properties.Settings.Default.Password.Trim()) == true)
+            {
+
+                string query = "SELECT LinhasDoc.Artigo AS Artigo , Artigo.Descricao, CabecDoc.Data As Data, CabecDoc.TipoDoc, CabecDoc.Serie, CabecDoc.NumDoc, LinhasDoc.PrecUnit, LinhasDoc.DataEntrega, (LinhasDocStatus.Quantidade * LinhasDoc.FactorConv) Quantidade, (LinhasDocStatus.QuantReserv * LinhasDoc.FactorConv) QuantReserv, (LinhasDocStatus.QuantTrans * LinhasDoc.FactorConv) QuantTrans, LinhasDoc.Id,CabecDoc.Entidade As ArtEntidade, Artigo.TratamentoDim,CabecDoc.Filial FROM CabecDoc INNER JOIN LinhasDoc ON CabecDoc.Id = LinhasDoc.IdCabecDoc INNER JOIN CabecDocStatus ON CabecDoc.ID=CabecDocStatus.IdCabecDoc INNER JOIN LinhasDocStatus ON LinhasDoc.ID=LinhasDocStatus.IdLinhasDoc INNER JOIN DocumentosVenda ON CabecDoc.TipoDoc=DocumentosVenda.Documento INNER JOIN Artigo ON LinhasDoc.Artigo=Artigo.Artigo WHERE CabecDoc.Filial='000' AND DocumentosVenda.TipoDocumento=2 AND CabecDocStatus.Estado<>'T' AND CabecDocStatus.Estado<>'R' AND abs(LinhasDocStatus.Quantidade) > Abs(LinhasDocStatus.QuantTrans) AND CabecDoc.TipoEntidade='C' AND CabecDoc.TipoDoc IN ('','ECL') AND ((LinhasDoc.TipoLinha>='10' AND LinhasDoc.TipoLinha<='29') OR LinhasDoc.TipoLinha='65' OR LinhasDoc.TipoLinha='91') AND LinhasDocStatus.EstadoTrans<>'T'  AND LinhasDocStatus.fechado=0  AND CabecDocStatus.fechado=0  AND CabecDocStatus.Anulado=0  ORDER BY LinhasDoc.DataEntrega";
+                if(produto != null)
+                {
+                    query = "SELECT LinhasDoc.Artigo AS Artigo , Artigo.Descricao, CabecDoc.Data As Data, CabecDoc.TipoDoc, CabecDoc.Serie, CabecDoc.NumDoc, LinhasDoc.PrecUnit, LinhasDoc.DataEntrega, (LinhasDocStatus.Quantidade * LinhasDoc.FactorConv) Quantidade, (LinhasDocStatus.QuantReserv * LinhasDoc.FactorConv) QuantReserv, (LinhasDocStatus.QuantTrans * LinhasDoc.FactorConv) QuantTrans, LinhasDoc.Id,CabecDoc.Entidade As ArtEntidade, Artigo.TratamentoDim,CabecDoc.Filial FROM CabecDoc INNER JOIN LinhasDoc ON CabecDoc.Id = LinhasDoc.IdCabecDoc INNER JOIN CabecDocStatus ON CabecDoc.ID=CabecDocStatus.IdCabecDoc INNER JOIN LinhasDocStatus ON LinhasDoc.ID=LinhasDocStatus.IdLinhasDoc INNER JOIN DocumentosVenda ON CabecDoc.TipoDoc=DocumentosVenda.Documento INNER JOIN Artigo ON LinhasDoc.Artigo=Artigo.Artigo WHERE CabecDoc.Filial='000' AND DocumentosVenda.TipoDocumento=2 AND CabecDocStatus.Estado<>'T' AND CabecDocStatus.Estado<>'R' AND abs(LinhasDocStatus.Quantidade) > Abs(LinhasDocStatus.QuantTrans) AND CabecDoc.TipoEntidade='C' AND CabecDoc.TipoDoc IN ('','ECL') AND ((LinhasDoc.TipoLinha>='10' AND LinhasDoc.TipoLinha<='29') OR LinhasDoc.TipoLinha='65' OR LinhasDoc.TipoLinha='91') AND LinhasDocStatus.EstadoTrans<>'T'  AND LinhasDocStatus.fechado=0  AND CabecDocStatus.fechado=0  AND LinhasDoc.Artigo = '" + produto + "' AND CabecDocStatus.Anulado=0  ORDER BY LinhasDoc.DataEntrega";
+                }
+                objList = PriEngine.Engine.Consulta(query);
+
+                while (!objList.NoFim())
+                {
+
+
+                    listEncomendas.Add(new Encomenda
+                    {
+                        CodProduto = objList.Valor("Artigo"),
+                        ProdutoDescricao = objList.Valor("Descricao"),
+                        PrecoUnitario = objList.Valor("PrecUnit"),
+                        DataEncomenda = objList.Valor("Data"),
+                        DataEntrega = objList.Valor("DataEntrega"),
+                        Quantidade = objList.Valor("Quantidade"),
+                    });
+
+                    objList.Seguinte();
+
+                }
+
+                return listEncomendas;
+            }
+            else
+                return null;
+            
+
+        }
+
+        #endregion
 
     }
 }

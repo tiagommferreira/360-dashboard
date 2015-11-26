@@ -1,0 +1,69 @@
+﻿<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Orders
+        <small>Control panel</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Orders</li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <!-- Small boxes (Stat box) -->
+    <div class="row">
+        <div class="col-lg-12 col-xs-12">
+            <table id="sales_table" class="display" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <td>Product Code</td>
+                        <td>Product</td>
+                        <td>Date </td>
+                        <td>Quantity </td>
+                        <td>Price </td>
+                        <td>Actions</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var x in ViewBag.Encomendas)
+                    {
+                        <tr>
+
+                            <td>
+                                @((x.CodProduto == null) ? "n/a" : x.CodProduto)
+                            </td>
+                            <td>
+                                @((x.ProdutoDescricao == null) ? "n/a" : x.ProdutoDescricao)
+                            </td>
+                            <td style="width:200px">
+                                @((x.DataEncomenda == null) ? "n/a" : x.DataEncomenda)
+                            </td>
+                            <td align="right" style="width:80px">
+                                @x.Quantidade
+                            </td>
+                            <td align="right" style="width:80px">
+                                @x.PrecoUnitario
+                            </td>
+                            <td>
+                                Actions...
+                            </td>
+
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div><!-- ./col -->
+    </div><!-- /.row -->
+
+</section><!-- /.content -->
+
+<script src="/Scripts/scripts/sales-charts.js"></script>
+
+<script>
+    $(document).ready(function () {
+            $('#sales_table').DataTable();
+        });
+</script>
