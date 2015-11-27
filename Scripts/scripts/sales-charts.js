@@ -79,6 +79,9 @@ var optionsDonutChart = {
 
 };
 
+var monthNames = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+];
 
 var lctx = $("#vendas-chart").get(0).getContext("2d");
 var ctx = $("#produtos-chart").get(0).getContext("2d");
@@ -108,17 +111,17 @@ function vendasChart(ano) {
     $.when(vendasAjax(ano, $("#vendas-chart").data("url")).done(function (dataVendas) {
         var vendas = [];
         vendas = dataVendas;
-
+        
         var vendasData = [];
         var vendasLabels = [];
         for (i = 0; i < vendas.length; i++) {
-            vendasLabels.push(vendas[i].Mes);
+            vendasLabels.push(monthNames[vendas[i].Mes-1]);
             vendasData.push(parseFloat(vendas[i].Valor));
         }
 
 
         var vendasDataLine = {
-            labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+            labels: vendasLabels,
             datasets: [
                 {
                     label: "Vendas",
@@ -157,14 +160,14 @@ function produtosChart(ano, produto) {
         var vendasData = [];
         var vendasLabels = [];
         for (i = 0; i < produtosVendas.length; i++) {
-            vendasLabels.push(produtosVendas[i].Mes);
+            vendasLabels.push(monthNames[produtosVendas[i].Mes-1]);
             vendasData.push(parseFloat(produtosVendas[i].Valor));
         }
 
 
         var vendasDataLine = {
-            labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-            datasets: [
+            labels: vendasLabels,
+                datasets: [
                 {
                     label: "Vendas",
                     fillColor: "rgba(152,230,0,0.2)",

@@ -80,6 +80,10 @@ var optionsDonutChart = {
 };
 
 
+var monthNames = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+];
+
 var lctx = $("#transactions-chart").get(0).getContext("2d");
 var ctx = $("#top-products-chart").get(0).getContext("2d");
 var myLineChart;
@@ -102,6 +106,16 @@ function comprasAjax(ano, url) {
         data: { year: ano }
     });
 }
+
+function getValorDoMes(array, mes) {
+    var i = 0;
+    for (; i < array.length; i++) {
+        if (array[i].Mes == mes)
+            return parseFloat(array[i].Valor)
+    }
+    return 0;
+}
+
 function transactionsChart(ano) {
     $.when(vendasAjax(ano, $("#transactions-chart").data("vendasurl")), comprasAjax(ano,$("#transactions-chart").data("comprasurl"))).done(function (dataVendas, dataCompras) {
         var vendas = [];
@@ -111,20 +125,22 @@ function transactionsChart(ano) {
 
         var vendasData = [];
         var vendasLabels = [];
-        for (i = 0; i < vendas.length; i++) {
-            vendasLabels.push(vendas[i].Mes);
-            vendasData.push(parseFloat(vendas[i].Valor));
-        }
+        var counter = 1;
 
         var comprasData = [];
         var comprasLabels = [];
-        for (i = 0; i < compras.length; i++) {
-            comprasLabels.push(compras[i].Mes);
-            comprasData.push(parseFloat(compras[i].Valor));
+
+        for (counter = 1; counter < 13; counter++) {
+            vendasLabels.push(monthNames[counter - 1]);
+            vendasData.push(getValorDoMes(vendas, counter));
+        }
+        for (counter = 1; counter < 13; counter++) {
+            comprasLabels.push(monthNames[counter - 1]);
+            comprasData.push(getValorDoMes(compras, counter));
         }
 
         var transactionsDataLine = {
-            labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+            labels: comprasLabels,
             datasets: [
                 {
                     label: "Vendas",
