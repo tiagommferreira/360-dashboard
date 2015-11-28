@@ -15,7 +15,8 @@
     <!-- Small boxes (Stat box) -->
     <div class="row">
         <div class="col-lg-6">
-            <h2>Vendas</h2>
+            <h2>Sales</h2>
+            <hr />
             <select id="vendas-ano">
                 <option value="2013">2013</option>
                 <option value="2014">2014</option>
@@ -24,7 +25,8 @@
             <canvas data-url="/api/Vendas/Info" id="vendas-chart" height="400" width="500"></canvas>
         </div>
         <div class="col-lg-6">
-            <h2>Produtos</h2>
+            <h2>Products</h2>
+            <hr />
             <select id="produto">
                 @foreach (var x in ViewBag.Produtos)
                 {
