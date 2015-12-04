@@ -16,14 +16,21 @@ namespace SINF_EXAMPLE_WS.Controllers
         {
  
             var client = new HttpClient();
-            var response = await client.GetAsync("http://localhost:49990/api/Vendas");
-            var sales = await response.Content.ReadAsAsync<IEnumerable<Venda>>();
+            
+            // Vendas
+            var response = await client.GetAsync("http://localhost:49990/api/Vendas/Total?ano=2014");
+            var sales = await response.Content.ReadAsAsync<double>();
+            
+            // Funcionarios
             response = await client.GetAsync("http://localhost:49990/api/Funcionarios");
             var funcionarios = await response.Content.ReadAsAsync<IEnumerable<Funcionario>>();
 
+            // Compras
+            response = await client.GetAsync("http://localhost:49990/api/Compras/Total?ano=2014");
+            var purchases = await response.Content.ReadAsAsync<double>();
 
-
-            ViewBag.Sales = sales;
+            ViewBag.SalesValue = sales;
+            ViewBag.PurchasesValue = purchases;
             ViewBag.Funcionarios = funcionarios;
 
             return View(sales);

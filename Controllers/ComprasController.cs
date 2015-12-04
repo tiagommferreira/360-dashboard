@@ -26,6 +26,12 @@ namespace SINF_EXAMPLE_WS.Controllers
             return IntegrationPri.GetDocumentoCompra(serie, tipoDoc, numDoc);
         }
 
+        // GET api/Compras/Total?ano=2014
+        public double GetTotal(string ano)
+        {
+            return IntegrationPri.GetTotalCompras(ano);
+        }
+
         public IEnumerable<TransacaoInfo> GetInfo()
         {
             string year = HttpContext.Current.Request.QueryString["year"];

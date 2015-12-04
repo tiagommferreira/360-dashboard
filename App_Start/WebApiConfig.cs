@@ -38,6 +38,12 @@ namespace SINF_EXAMPLE_WS
             );
 
             config.Routes.MapHttpRoute(
+                name: "TotalApiRoute",
+                routeTemplate: "api/{controller}/Total",
+                defaults: new { id = RouteParameter.Optional, action = "GetTotal" }
+            );
+
+            config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional, action = "Get" }
