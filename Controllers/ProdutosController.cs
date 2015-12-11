@@ -43,5 +43,10 @@ namespace SINF_EXAMPLE_WS.Controllers
             }
         }
 
+        public double GetValorInventario()
+        {
+            return IntegrationPri.GetValorInventario();
+        }
+
     }
 }

@@ -182,6 +182,24 @@ namespace SINF_EXAMPLE_WS.Models
                 return null;
         }
 
+        public static double GetValorInventario()
+        {
+            StdBELista objList;
+
+            if (PriEngine.InitializeCompany(SINF_EXAMPLE_WS.Properties.Settings.Default.Company.Trim(), SINF_EXAMPLE_WS.Properties.Settings.Default.User.Trim(), SINF_EXAMPLE_WS.Properties.Settings.Default.Password.Trim()) == true)
+            {
+                objList = PriEngine.Engine.Consulta("SELECT SUM([dbo].[ArtigoArmazem].StkActual*[dbo].[Artigo].PCMedio) AS Valor FROM [dbo].[Artigo], [dbo].[ArtigoArmazem] WHERE [dbo].[ArtigoArmazem].Artigo = [dbo].[Artigo].Artigo");
+
+                if (!objList.Vazia())
+                {
+                    return objList.Valor("Valor");
+                }
+
+            }
+
+            return 0;
+        }
+
 
         #endregion  
     

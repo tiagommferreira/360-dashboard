@@ -18,15 +18,15 @@ namespace SINF_EXAMPLE_WS.Controllers
             var client = new HttpClient();
             
             // Vendas
-            var response = await client.GetAsync("http://localhost:49990/api/Vendas/Total?ano=2014");
+            var response = await client.GetAsync("http://localhost:49990/api/Vendas/Total?ano=2015");
             var sales = await response.Content.ReadAsAsync<double>();
             
             // Funcionarios
-            response = await client.GetAsync("http://localhost:49990/api/Funcionarios");
-            var funcionarios = await response.Content.ReadAsAsync<IEnumerable<Funcionario>>();
+            //response = await client.GetAsync("http://localhost:49990/api/Funcionarios");
+            //var funcionarios = await response.Content.ReadAsAsync<IEnumerable<Funcionario>>();
 
             // Compras
-            response = await client.GetAsync("http://localhost:49990/api/Compras/Total?ano=2014");
+            response = await client.GetAsync("http://localhost:49990/api/Compras/Total?ano=2015");
             var purchases = await response.Content.ReadAsAsync<double>();
             purchases = Math.Abs(purchases);
 
@@ -34,10 +34,16 @@ namespace SINF_EXAMPLE_WS.Controllers
             response = await client.GetAsync("http://localhost:49990/api/Compras/Cash");
             var cashMoney = await response.Content.ReadAsAsync<double>();
 
+            // Valor do inventario
+            response = await client.GetAsync("http://localhost:49990/api/Produtos/Value");
+            var invValue = await response.Content.ReadAsAsync<double>();
+
+
             ViewBag.SalesValue = sales;
             ViewBag.PurchasesValue = purchases;
-            ViewBag.Funcionarios = funcionarios;
+            //ViewBag.Funcionarios = funcionarios;
             ViewBag.Caixa = cashMoney;
+            ViewBag.ValorInv = Math.Round(invValue);
 
             return View(sales);
         }

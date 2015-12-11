@@ -2,7 +2,7 @@
 <section class="content-header">
     <h1>
         Dashboard
-        <small>Control panel</small>
+        <small>2015</small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -16,9 +16,9 @@
 <section class="content">
     <!-- Small boxes (Stat box) -->
     <div class="row">
-        <div class="col-lg-4 col-xs-6">
+        <div class="col-lg-3 col-xs-6">
             <!-- small box -->
-            <div class="small-box bg-aqua">
+            <div class="small-box bg-orange">
                 <div class="inner">
                     <h3>@ViewBag.SalesValue<sup style="font-size: 20px">€</sup></h3>
                     <p>Sales</p>
@@ -29,30 +29,43 @@
                 <a href="/Sales" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
             </div>
         </div><!-- ./col -->
-        <div class="col-lg-4 col-xs-6">
+        <div class="col-lg-3 col-xs-6">
             <!-- small box -->
-            <div class="small-box bg-green">
+            <div class="small-box bg-red">
                 <div class="inner">
                     <h3>@ViewBag.PurchasesValue<sup style="font-size: 20px">€</sup></h3>
                     <p>Purchases</p>
                 </div>
                 <div class="icon">
-                    <i class="ion ion-stats-bars"></i>
+                    <i class="ion ion-bag"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                <a href="/Purchases" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
             </div>
         </div><!-- ./col -->
-        <div class="col-lg-4 col-xs-6">
+        <div class="col-lg-3 col-xs-6">
             <!-- small box -->
-            <div class="small-box bg-yellow">
+            <div class="small-box bg-green">
                 <div class="inner">
                     <h3>@ViewBag.Caixa<sup style="font-size: 20px">€</sup></h3>
                     <p>Cash Flow</p>
                 </div>
                 <div class="icon">
-                    <i class="ion ion-person-add"></i>
+                    <i class="ion ion-cash"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                <div class="small-box-footer">&nbsp;</div>
+            </div>
+        </div><!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-aqua">
+                <div class="inner">
+                    <h3>@ViewBag.ValorInv<sup style="font-size: 20px">€</sup></h3>
+                    <p>Inventory value</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-ios-box"></i>
+                </div>
+                <a href="/Inventory" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
             </div>
         </div><!-- ./col -->
     </div><!-- /.row -->

@@ -136,7 +136,7 @@ function transactionsChart(ano) {
         }
         for (counter = 1; counter < 13; counter++) {
             comprasLabels.push(monthNames[counter - 1]);
-            comprasData.push(getValorDoMes(compras, counter));
+            comprasData.push(Math.abs(getValorDoMes(compras, counter)));
         }
 
         var transactionsDataLine = {
