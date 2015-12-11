@@ -327,6 +327,29 @@ namespace SINF_EXAMPLE_WS.Models
             return 0;
         }
 
+        public static double GetCash()
+        {
+            StdBELista objList;
+
+            double totalCash = 0;
+
+
+            if (PriEngine.InitializeCompany(SINF_EXAMPLE_WS.Properties.Settings.Default.Company.Trim(), SINF_EXAMPLE_WS.Properties.Settings.Default.User.Trim(), SINF_EXAMPLE_WS.Properties.Settings.Default.Password.Trim()) == true)
+            {
+                objList = PriEngine.Engine.Consulta("SELECT Ano, Conta,SUM((MES00DB + MES01DB + MES02DB + MES03DB + MES04DB + MES05DB + MES06DB + MES07DB + MES08DB + MES09DB + MES10DB + MES11DB + MES12DB + MES13DB + MES14DB + MES15DB) - (MES00CR + MES01CR + MES02CR + MES03CR + MES04CR + MES05CR + MES06CR + MES07CR + MES08CR + MES09CR + MES10CR + MES11CR + MES12CR + MES13CR + MES14CR + MES15CR)) AS Saldo FROM [dbo].[AcumuladosContas] WHERE ANO = 2015 AND (CONTA = '11' OR CONTA = '12') GROUP BY Ano,CONTA");
+
+                while (!objList.NoFim())
+                {
+                    totalCash += Convert.ToDouble(objList.Valor("Saldo"));
+
+                    objList.Seguinte();
+                }
+               
+            }
+
+            return totalCash;
+        }
+
         #endregion
 
         #region Vendas

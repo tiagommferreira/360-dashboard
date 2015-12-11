@@ -37,6 +37,11 @@ namespace SINF_EXAMPLE_WS.Controllers
             string year = HttpContext.Current.Request.QueryString["year"];
             return IntegrationPri.GetCompraInfo(year);
         }
+
+        public double GetCash()
+        {
+            return IntegrationPri.GetCash();
+        }
         
     }
 }

@@ -14,10 +14,18 @@ namespace SINF_EXAMPLE_WS
             config.Formatters.Remove(config.Formatters.XmlFormatter);
 
             config.Routes.MapHttpRoute(
+               name: "CashApi",
+               routeTemplate: "api/{controller}/Cash",
+               defaults: new { id = RouteParameter.Optional, action = "GetCash" }
+           );
+
+            config.Routes.MapHttpRoute(
                 name: "PaymentsApiRoute",
                 routeTemplate: "api/{controller}/Salarios",
                 defaults: new { controller = "Funcionarios", action = "GetSalarios" }
             );
+
+           
 
             config.Routes.MapHttpRoute(
                 name: "InvoicesApiRoute",
@@ -48,7 +56,8 @@ namespace SINF_EXAMPLE_WS
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional, action = "Get" }
             );
-
+            
+            
             
 
             // Uncomment the following line of code to enable query support for actions with an IQueryable or IQueryable<T> return type.

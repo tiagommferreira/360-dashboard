@@ -28,10 +28,16 @@ namespace SINF_EXAMPLE_WS.Controllers
             // Compras
             response = await client.GetAsync("http://localhost:49990/api/Compras/Total?ano=2014");
             var purchases = await response.Content.ReadAsAsync<double>();
+            purchases = Math.Abs(purchases);
+
+            // Dinheiro em caixa
+            response = await client.GetAsync("http://localhost:49990/api/Compras/Cash");
+            var cashMoney = await response.Content.ReadAsAsync<double>();
 
             ViewBag.SalesValue = sales;
             ViewBag.PurchasesValue = purchases;
             ViewBag.Funcionarios = funcionarios;
+            ViewBag.Caixa = cashMoney;
 
             return View(sales);
         }
