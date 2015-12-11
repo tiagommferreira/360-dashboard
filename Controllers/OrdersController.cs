@@ -20,6 +20,12 @@ namespace SINF_EXAMPLE_WS.Controllers
             var response = await client.GetAsync("http://localhost:49990/api/Encomendas");
             var encomendas = await response.Content.ReadAsAsync<IEnumerable<Encomenda>>();
 
+            var totalEncomendas = 0.0d;
+            foreach (var x in encomendas)
+            {
+                totalEncomendas += (x.PrecoUnitario * x.Quantidade);
+            }
+            ViewBag.TotalEncomendas = totalEncomendas;
             ViewBag.Encomendas = encomendas;
             return View();
         }

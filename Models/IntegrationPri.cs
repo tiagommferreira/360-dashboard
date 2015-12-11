@@ -993,7 +993,8 @@ namespace SINF_EXAMPLE_WS.Models
 
         #endregion
 
-        #region
+        #region Encomendas
+
 
         public static List<Encomenda> ListaEncomendas(string produto)
         {
@@ -1004,10 +1005,10 @@ namespace SINF_EXAMPLE_WS.Models
             if (PriEngine.InitializeCompany(SINF_EXAMPLE_WS.Properties.Settings.Default.Company.Trim(), SINF_EXAMPLE_WS.Properties.Settings.Default.User.Trim(), SINF_EXAMPLE_WS.Properties.Settings.Default.Password.Trim()) == true)
             {
 
-                string query = "SELECT LinhasDoc.Artigo AS Artigo , Artigo.Descricao, CabecDoc.Data As Data, CabecDoc.TipoDoc, CabecDoc.Serie, CabecDoc.NumDoc, LinhasDoc.PrecUnit, LinhasDoc.DataEntrega, (LinhasDocStatus.Quantidade * LinhasDoc.FactorConv) Quantidade, (LinhasDocStatus.QuantReserv * LinhasDoc.FactorConv) QuantReserv, (LinhasDocStatus.QuantTrans * LinhasDoc.FactorConv) QuantTrans, LinhasDoc.Id,CabecDoc.Entidade As ArtEntidade, Artigo.TratamentoDim,CabecDoc.Filial FROM CabecDoc INNER JOIN LinhasDoc ON CabecDoc.Id = LinhasDoc.IdCabecDoc INNER JOIN CabecDocStatus ON CabecDoc.ID=CabecDocStatus.IdCabecDoc INNER JOIN LinhasDocStatus ON LinhasDoc.ID=LinhasDocStatus.IdLinhasDoc INNER JOIN DocumentosVenda ON CabecDoc.TipoDoc=DocumentosVenda.Documento INNER JOIN Artigo ON LinhasDoc.Artigo=Artigo.Artigo WHERE CabecDoc.Filial='000' AND DocumentosVenda.TipoDocumento=2 AND CabecDocStatus.Estado<>'T' AND CabecDocStatus.Estado<>'R' AND abs(LinhasDocStatus.Quantidade) > Abs(LinhasDocStatus.QuantTrans) AND CabecDoc.TipoEntidade='C' AND CabecDoc.TipoDoc IN ('','ECL') AND ((LinhasDoc.TipoLinha>='10' AND LinhasDoc.TipoLinha<='29') OR LinhasDoc.TipoLinha='65' OR LinhasDoc.TipoLinha='91') AND LinhasDocStatus.EstadoTrans<>'T'  AND LinhasDocStatus.fechado=0  AND CabecDocStatus.fechado=0  AND CabecDocStatus.Anulado=0  ORDER BY LinhasDoc.DataEntrega";
+                string query = "SELECT LinhasDoc.Artigo AS Artigo  , CabecDoc.Entidade AS Cliente , Artigo.Descricao, CabecDoc.Data As Data, CabecDoc.TipoDoc, CabecDoc.Serie, CabecDoc.NumDoc, LinhasDoc.PrecUnit, LinhasDoc.DataEntrega, (LinhasDocStatus.Quantidade * LinhasDoc.FactorConv) Quantidade, (LinhasDocStatus.QuantReserv * LinhasDoc.FactorConv) QuantReserv, (LinhasDocStatus.QuantTrans * LinhasDoc.FactorConv) QuantTrans, LinhasDoc.Id,CabecDoc.Entidade As ArtEntidade, Artigo.TratamentoDim,CabecDoc.Filial FROM CabecDoc INNER JOIN LinhasDoc ON CabecDoc.Id = LinhasDoc.IdCabecDoc INNER JOIN CabecDocStatus ON CabecDoc.ID=CabecDocStatus.IdCabecDoc INNER JOIN LinhasDocStatus ON LinhasDoc.ID=LinhasDocStatus.IdLinhasDoc INNER JOIN DocumentosVenda ON CabecDoc.TipoDoc=DocumentosVenda.Documento INNER JOIN Artigo ON LinhasDoc.Artigo=Artigo.Artigo WHERE CabecDoc.Filial='000' AND DocumentosVenda.TipoDocumento=2 AND CabecDocStatus.Estado<>'T' AND CabecDocStatus.Estado<>'R' AND abs(LinhasDocStatus.Quantidade) > Abs(LinhasDocStatus.QuantTrans) AND CabecDoc.TipoEntidade='C' AND CabecDoc.TipoDoc IN ('','ECL') AND ((LinhasDoc.TipoLinha>='10' AND LinhasDoc.TipoLinha<='29') OR LinhasDoc.TipoLinha='65' OR LinhasDoc.TipoLinha='91') AND LinhasDocStatus.EstadoTrans<>'T'  AND LinhasDocStatus.fechado=0  AND CabecDocStatus.fechado=0  AND CabecDocStatus.Anulado=0  ORDER BY LinhasDoc.DataEntrega";
                 if(produto != null)
                 {
-                    query = "SELECT LinhasDoc.Artigo AS Artigo , Artigo.Descricao, CabecDoc.Data As Data, CabecDoc.TipoDoc, CabecDoc.Serie, CabecDoc.NumDoc, LinhasDoc.PrecUnit, LinhasDoc.DataEntrega, (LinhasDocStatus.Quantidade * LinhasDoc.FactorConv) Quantidade, (LinhasDocStatus.QuantReserv * LinhasDoc.FactorConv) QuantReserv, (LinhasDocStatus.QuantTrans * LinhasDoc.FactorConv) QuantTrans, LinhasDoc.Id,CabecDoc.Entidade As ArtEntidade, Artigo.TratamentoDim,CabecDoc.Filial FROM CabecDoc INNER JOIN LinhasDoc ON CabecDoc.Id = LinhasDoc.IdCabecDoc INNER JOIN CabecDocStatus ON CabecDoc.ID=CabecDocStatus.IdCabecDoc INNER JOIN LinhasDocStatus ON LinhasDoc.ID=LinhasDocStatus.IdLinhasDoc INNER JOIN DocumentosVenda ON CabecDoc.TipoDoc=DocumentosVenda.Documento INNER JOIN Artigo ON LinhasDoc.Artigo=Artigo.Artigo WHERE CabecDoc.Filial='000' AND DocumentosVenda.TipoDocumento=2 AND CabecDocStatus.Estado<>'T' AND CabecDocStatus.Estado<>'R' AND abs(LinhasDocStatus.Quantidade) > Abs(LinhasDocStatus.QuantTrans) AND CabecDoc.TipoEntidade='C' AND CabecDoc.TipoDoc IN ('','ECL') AND ((LinhasDoc.TipoLinha>='10' AND LinhasDoc.TipoLinha<='29') OR LinhasDoc.TipoLinha='65' OR LinhasDoc.TipoLinha='91') AND LinhasDocStatus.EstadoTrans<>'T'  AND LinhasDocStatus.fechado=0  AND CabecDocStatus.fechado=0  AND LinhasDoc.Artigo = '" + produto + "' AND CabecDocStatus.Anulado=0  ORDER BY LinhasDoc.DataEntrega";
+                    query = "SELECT LinhasDoc.Artigo AS Artigo , CabecDoc.Entidade AS Cliente , Artigo.Descricao, CabecDoc.Data As Data, CabecDoc.TipoDoc, CabecDoc.Serie, CabecDoc.NumDoc, LinhasDoc.PrecUnit, LinhasDoc.DataEntrega, (LinhasDocStatus.Quantidade * LinhasDoc.FactorConv) Quantidade, (LinhasDocStatus.QuantReserv * LinhasDoc.FactorConv) QuantReserv, (LinhasDocStatus.QuantTrans * LinhasDoc.FactorConv) QuantTrans, LinhasDoc.Id,CabecDoc.Entidade As ArtEntidade, Artigo.TratamentoDim,CabecDoc.Filial FROM CabecDoc INNER JOIN LinhasDoc ON CabecDoc.Id = LinhasDoc.IdCabecDoc INNER JOIN CabecDocStatus ON CabecDoc.ID=CabecDocStatus.IdCabecDoc INNER JOIN LinhasDocStatus ON LinhasDoc.ID=LinhasDocStatus.IdLinhasDoc INNER JOIN DocumentosVenda ON CabecDoc.TipoDoc=DocumentosVenda.Documento INNER JOIN Artigo ON LinhasDoc.Artigo=Artigo.Artigo WHERE CabecDoc.Filial='000' AND DocumentosVenda.TipoDocumento=2 AND CabecDocStatus.Estado<>'T' AND CabecDocStatus.Estado<>'R' AND abs(LinhasDocStatus.Quantidade) > Abs(LinhasDocStatus.QuantTrans) AND CabecDoc.TipoEntidade='C' AND CabecDoc.TipoDoc IN ('','ECL') AND ((LinhasDoc.TipoLinha>='10' AND LinhasDoc.TipoLinha<='29') OR LinhasDoc.TipoLinha='65' OR LinhasDoc.TipoLinha='91') AND LinhasDocStatus.EstadoTrans<>'T'  AND LinhasDocStatus.fechado=0  AND CabecDocStatus.fechado=0  AND LinhasDoc.Artigo = '" + produto + "' AND CabecDocStatus.Anulado=0  ORDER BY LinhasDoc.DataEntrega";
                 }
                 objList = PriEngine.Engine.Consulta(query);
 
@@ -1023,6 +1024,7 @@ namespace SINF_EXAMPLE_WS.Models
                         DataEncomenda = objList.Valor("Data"),
                         DataEntrega = objList.Valor("DataEntrega"),
                         Quantidade = objList.Valor("Quantidade"),
+                        Cliente = objList.Valor("Cliente"),
                     });
 
                     objList.Seguinte();
@@ -1036,6 +1038,50 @@ namespace SINF_EXAMPLE_WS.Models
             
 
         }
+
+
+
+        public static List<object> GetTopClientesEncomendas(string required)
+        {
+            StdBELista objList;
+
+            List<object> listClientes = new List<object>();
+            
+
+            if (PriEngine.InitializeCompany(SINF_EXAMPLE_WS.Properties.Settings.Default.Company.Trim(), SINF_EXAMPLE_WS.Properties.Settings.Default.User.Trim(), SINF_EXAMPLE_WS.Properties.Settings.Default.Password.Trim()) == true)
+            {
+                string query = "SELECT CabecDoc.Entidade AS Cliente,SUM( LinhasDoc.PrecUnit * LinhasDocStatus.Quantidade) AS TOTAL FROM CabecDoc INNER JOIN LinhasDoc ON CabecDoc.Id = LinhasDoc.IdCabecDoc INNER JOIN CabecDocStatus ON CabecDoc.ID=CabecDocStatus.IdCabecDoc INNER JOIN LinhasDocStatus ON LinhasDoc.ID=LinhasDocStatus.IdLinhasDoc INNER JOIN DocumentosVenda ON CabecDoc.TipoDoc=DocumentosVenda.Documento INNER JOIN Artigo ON LinhasDoc.Artigo=Artigo.Artigo WHERE CabecDoc.Filial='000' AND DocumentosVenda.TipoDocumento=2 AND CabecDocStatus.Estado<>'T' AND CabecDocStatus.Estado<>'R' AND abs(LinhasDocStatus.Quantidade) > Abs(LinhasDocStatus.QuantTrans) AND CabecDoc.TipoEntidade='C' AND CabecDoc.TipoDoc IN ('','ECL') AND ((LinhasDoc.TipoLinha>='10' AND LinhasDoc.TipoLinha<='29') OR LinhasDoc.TipoLinha='65' OR LinhasDoc.TipoLinha='91') AND LinhasDocStatus.EstadoTrans<>'T'  AND LinhasDocStatus.fechado=0  AND CabecDocStatus.fechado=0  AND CabecDocStatus.Anulado=0  GROUP BY CabecDoc.Entidade ORDER BY TOTAL DESC";
+
+                var counter = 0;
+
+                objList = PriEngine.Engine.Consulta(query);
+
+                var requiredNumber = objList.NumLinhas();
+                if(required!=null)
+                    requiredNumber = Int32.Parse(required);
+
+                while (!objList.NoFim() && counter < requiredNumber )
+                {
+
+                    object dictionary = new
+                    {
+                        Cliente =  objList.Valor("Cliente"),
+                        Total = objList.Valor("TOTAL"),
+                    };
+                    counter++;
+                    listClientes.Add(dictionary);
+
+                    objList.Seguinte();
+
+                }
+
+                return listClientes;
+            }
+            else
+                return null;
+        }
+        
+
 
         #endregion
 

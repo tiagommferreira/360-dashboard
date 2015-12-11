@@ -50,7 +50,13 @@ namespace SINF_EXAMPLE_WS
                 routeTemplate: "api/{controller}/Total",
                 defaults: new { id = RouteParameter.Optional, action = "GetTotal" }
             );
+            config.Routes.MapHttpRoute(
+                name: "TopClienteApi",
+                routeTemplate: "api/{controller}/TopClient",
+                defaults: new { id = RouteParameter.Optional, action = "GetTopClientes" }
+            );
 
+            
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",

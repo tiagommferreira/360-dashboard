@@ -31,6 +31,12 @@ namespace SINF_EXAMPLE_WS.Models
             set;
         }
 
+        public string Cliente
+        {
+            get;
+            set;
+        }
+
         public double PrecoUnitario
         {
             get;

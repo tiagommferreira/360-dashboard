@@ -21,6 +21,13 @@ namespace SINF_EXAMPLE_WS.Controllers
             return IntegrationPri.ListaEncomendas(product);
         }
 
+
+        public IEnumerable<object> GetTopClientes()
+        {
+
+            string required = HttpContext.Current.Request.QueryString["required"];
+            return IntegrationPri.GetTopClientesEncomendas(required);
+        }
         // GET api/Produtos/Top?serie=A&tipoDoc=FA&numDoc=1
         
 

@@ -12,6 +12,28 @@
 
 <!-- Main content -->
 <section class="content">
+    <div class="row">
+        <div class="col-lg-4">
+            <h2>Total Sales</h2>
+            <hr />
+            <div class="small-box bg-aqua">
+                <div class="inner">
+                    <h3>@ViewBag.TotalEncomendas<sup style="font-size: 20px">€</sup></h3>
+                    <p>Total Sales Value</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-bag"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-2"></div>
+        <div class="col-lg-4">
+            <h2>Top Clientes</h2>
+            <hr />
+            <canvas data-url="/api/Encomendas/TopClient" id="encomendas-chart" height="200" width="250"></canvas>
+
+        </div>
+    </div>
     <!-- Small boxes (Stat box) -->
     <div class="row">
         <div class="col-lg-12 col-xs-12">
@@ -23,7 +45,7 @@
                         <td>Date </td>
                         <td>Quantity </td>
                         <td>Price </td>
-                        <td>Actions</td>
+                        <td>Client </td>
                     </tr>
                 </thead>
                 <tbody>
@@ -38,7 +60,7 @@
                                 @((x.ProdutoDescricao == null) ? "n/a" : x.ProdutoDescricao)
                             </td>
                             <td style="width:200px">
-                                @((x.DataEncomenda == null) ? "n/a" : x.DataEncomenda)
+                                @((x.DataEncomenda == null) ? "n/a" : x.DataEncomenda.ToString("yyyy-MM-dd"))
                             </td>
                             <td align="right" style="width:80px">
                                 @x.Quantidade
@@ -46,8 +68,8 @@
                             <td align="right" style="width:80px">
                                 @x.PrecoUnitario
                             </td>
-                            <td>
-                                Actions...
+                            <td align="right" style="width:80px">
+                                @x.Cliente
                             </td>
 
                         </tr>
@@ -60,9 +82,10 @@
 
 </section><!-- /.content -->
 
-<script src="/Scripts/scripts/sales-charts.js"></script>
 
+<script src="~/Scripts/scripts/orders-chart.js"></script>
 <script>
+
     $(document).ready(function () {
             $('#sales_table').DataTable();
         });

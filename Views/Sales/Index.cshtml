@@ -67,7 +67,7 @@
                                 @((x.Entidade == null) ? "n/a" : x.Entidade)
                             </td>
                             <td style="width:200px">
-                                @((x.Data == null) ? "n/a" : x.Data)
+                                @((x.Data == null) ? "n/a" : x.Data.ToString("yyyy-MM-dd"))
                             </td>
                             <td align="right" style="width:80px">
                                 @(@x.TotalDesc + @x.TotalEcotaxa + @x.TotalIEC + @x.TotalMerc)
