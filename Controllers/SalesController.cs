@@ -30,10 +30,22 @@ namespace SINF_EXAMPLE_WS.Controllers
             System.Diagnostics.Debug.WriteLine(serie + " " + tipoDoc + " " + numDoc);
             var client = new HttpClient();
             var response = await client.GetAsync("http://localhost:49990/api/Vendas/Documento?" + "serie=" + serie + "&tipoDoc=" + tipoDoc + "&numDoc=" +numDoc);
-           
+
             var linhaDoc = await response.Content.ReadAsAsync<IEnumerable<LinhaDocumento>>();
 
+            response = await client.GetAsync("http://localhost:49990/api/Vendas");
+            var vendas = await response.Content.ReadAsAsync<IEnumerable<Venda>>();
+
+            var venda = new Venda();
+            foreach(var v in vendas)
+            {
+                if(v.NumDoc == Int32.Parse(numDoc) && v.Serie == serie && v.TipoDoc == tipoDoc)
+                {
+                    venda = v;
+                }
+            }
             ViewBag.linhaDoc = linhaDoc;
+            ViewBag.venda = venda;
             return View(linhaDoc);
         }
     }
