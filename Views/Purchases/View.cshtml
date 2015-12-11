@@ -1,0 +1,35 @@
+﻿<!-- Main content -->
+<section class="content-header">
+
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Purchases</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="row">
+                <div class="col-md-3"><h3>Descrição</h3></div>
+                <div class="col-md-3"><h3>Tipo Fatura</h3></div>
+                <div class="col-md-2"><h3>Preço Uni (€)</h3></div>
+                <div class="col-md-1"><h3>Quan</h3></div>
+                <div class="col-md-3"><h3>Nome</h3></div>
+            </div>
+            <hr />
+            @foreach (var x in ViewBag.compras)
+            {
+                <div class="row">
+                    <div class="col-md-3">@x.Descricao </div>
+                    <div class="col-md-3">@x.DescricaoFatura</div>
+                    <div class="col-md-2">@x.PrecoLiquido</div>
+                    <div class="col-md-1">@x.Quantidade</div>
+                    <div class="col-md-3">@x.Nome</div>
+                </div>
+                <br />
+            }
+            <hr />
+            <br />
+        </div>
+    </div>
+</section>

@@ -1,0 +1,62 @@
+﻿<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Purchases
+        <small>Control panel</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Purchases</li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <!-- Small boxes (Stat box) -->
+    <div class="row">
+        <div class="col-lg-12 col-xs-12">
+            <table id="sales_table" class="display" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <td> Entity </td>
+                        <td> Date </td>
+                        <td align="right">Value (€) </td>
+                        <td align="right">Actions</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var x in ViewBag.Compras)
+                    {
+                        <tr>
+                            <td>
+                                @x.Entidade
+                            </td>
+
+                            <td style="width:200px">
+                                @((x.DataIntroducao == null) ? "n/a" : x.DataIntroducao.ToString("yyyy-MM-dd"))
+                            </td>     
+
+                            <td align="right">
+                                @(@x.TotalMerc - @x.TotalDesc)
+                            </td>          
+
+                            <td align ="right">
+                                <a href="@Url.Action("View", "Purchases", new { serie = @x.Serie, tipoDoc = @x.TipoDoc, numDoc = @x.NumDoc })"> @((x.Descricao == null) ? "n/a" : x.Descricao)</a>
+
+                            </td>
+
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div><!-- ./col -->
+    </div><!-- /.row -->
+
+</section><!-- /.content -->
+
+<script>
+    $(document).ready(function () {
+            $('#sales_table').DataTable();
+        });
+</script>
