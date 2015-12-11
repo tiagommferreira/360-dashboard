@@ -20,6 +20,13 @@ namespace SINF_EXAMPLE_WS.Controllers
             return IntegrationPri.ListaVendas();
         }
 
+        public IEnumerable<Venda> GetVenda()
+        {
+            return IntegrationPri.ListaVendas();
+        }
+
+
+
         // GET api/Vendas/Documento?serie=A&tipoDoc=FA&numDoc=1
         public List<LinhaDocumento> GetDocumento(string serie, string tipoDoc, string numDoc)
         {

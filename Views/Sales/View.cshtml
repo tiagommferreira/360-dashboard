@@ -1,12 +1,25 @@
-﻿@foreach (var x in ViewBag.linhaDoc)
-{
-    <p>
-        <br /> 
-        @x.Descricao  <br />
-        @x.DescricaoFatura  <br />
-        @x.PrecUnit <br />
-        @x.Morada <br />
-    </p>
-    <hr>
-}
-    
+﻿<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="row">
+                <div class="col-md-3"><h3>Descrição</h3></div>
+                <div class="col-md-3"><h3>Tipo Fatura</h3></div>
+                <div class="col-md-3"><h3>Preço Uni (€)</h3></div>
+                <div class="col-md-3"><h3>Morada</h3></div>
+            </div>
+            <hr />
+            @foreach (var x in ViewBag.linhaDoc)
+            {
+                <div class="row">
+                    <div class="col-md-3">@x.Descricao </div>
+                    <div class="col-md-3">@x.DescricaoFatura</div>
+                    <div class="col-md-3">@x.PrecUnit</div>
+                    <div class="col-md-3">@x.Morada</div>
+                </div>
+                <br />
+            }
+        </div>
+
+    </div>
+</section>
