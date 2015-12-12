@@ -25,12 +25,9 @@ namespace SINF_EXAMPLE_WS.Models
                 //objList = PriEngine.Engine.Comercial.Clientes.LstClientes();
 
                 objList = PriEngine.Engine.Consulta("SELECT Cliente, Nome, Moeda, NumContrib as NumContribuinte, Fac_Mor AS campo_exemplo FROM  CLIENTES");
-
-                System.Diagnostics.Debug.WriteLine("LISTA");
-
+                
                 while (!objList.NoFim())
                 {
-                    Console.WriteLine(objList);
                     
                     listClientes.Add(new Cliente
                     {
@@ -38,7 +35,6 @@ namespace SINF_EXAMPLE_WS.Models
                         NomeCliente = objList.Valor("Nome"),
                         Moeda = objList.Valor("Moeda"),
                         NumContribuinte = objList.Valor("NumContribuinte"),
-                        //Morada = objList.Valor("campo_exemplo")
                     });
                     
                     objList.Seguinte();
@@ -1101,6 +1097,45 @@ namespace SINF_EXAMPLE_WS.Models
         
 
 
+        #endregion
+
+        #region Fornecedores
+
+        //List clientes com Primavera API
+        public static List<Fornecedor> ListaFornecedores()
+        {
+
+            StdBELista objList;
+
+            List<Fornecedor> listFornecedores = new List<Fornecedor>();
+
+            if (PriEngine.InitializeCompany(SINF_EXAMPLE_WS.Properties.Settings.Default.Company.Trim(), SINF_EXAMPLE_WS.Properties.Settings.Default.User.Trim(), SINF_EXAMPLE_WS.Properties.Settings.Default.Password.Trim()) == true)
+            {
+                //objList = PriEngine.Engine.Comercial.Clientes.LstClientes();
+
+                objList = PriEngine.Engine.Consulta("SELECT Fornecedor, Nome, Morada, Tel, NumContrib as NumContribuinte FROM  FORNECEDORES");
+
+                while (!objList.NoFim())
+                {
+
+                    listFornecedores.Add(new Fornecedor
+                    {
+                        CodForn = objList.Valor("Fornecedor"),
+                        Nome = objList.Valor("Nome"),
+                        Morada = objList.Valor("Morada"),
+                        Tel = objList.Valor("Tel"),
+                        NumContribuinte = objList.Valor("NumContribuinte"),
+                    });
+
+                    objList.Seguinte();
+
+                }
+
+                return listFornecedores;
+            }
+            else
+                return null;
+        }
         #endregion
 
     }
