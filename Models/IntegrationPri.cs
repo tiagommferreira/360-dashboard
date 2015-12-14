@@ -223,7 +223,7 @@ namespace SINF_EXAMPLE_WS.Models
                     {
                         Ano = objList.Valor("Ano"),
                         Mes = objList.Valor("Mes"),
-                        Valor = objList.Valor("Valor")
+                        Valor = Math.Abs(objList.Valor("Valor"))
                     });
                     objList.Seguinte();
                 }
@@ -253,18 +253,18 @@ namespace SINF_EXAMPLE_WS.Models
                     {
                         TipoDoc = objList.Valor("TipoDoc"),
                         TipoEntidade = objList.Valor("TipoEntidade"),
-                        TotalMerc = objList.Valor("TotalMerc"),
-                        TotalIva = objList.Valor("TotalIva"),
-                        TotalDesc = objList.Valor("TotalDesc"),
-                        TotalOutros = objList.Valor("TotalOutros"),
-                        TotalDespesasAdicionais = objList.Valor("TotalDespesasAdicionais"),
+                        TotalMerc = Math.Abs(objList.Valor("TotalMerc")),
+                        TotalIva = Math.Abs(objList.Valor("TotalIva")),
+                        TotalDesc = Math.Abs(objList.Valor("TotalDesc")),
+                        TotalOutros = Math.Abs(objList.Valor("TotalOutros")),
+                        TotalDespesasAdicionais = Math.Abs(objList.Valor("TotalDespesasAdicionais")),
                         NumDoc = objList.Valor("NumDoc"),
                         Entidade = objList.Valor("Entidade"),
                         DataIntroducao = objList.Valor("DataIntroducao"),
                         Descricao = objList.Valor("Descricao"),
                         NumDocExterno = objList.Valor("NumDocExterno"),
                         Serie = objList.Valor("Serie"),
-                        TotalEcoTaxa = objList.Valor("TotalEcoTaxa"),
+                        TotalEcoTaxa = Math.Abs(objList.Valor("TotalEcoTaxa")),
                         DataDoc = objList.Valor("DataDoc"),
                         Anulado = objList.Valor("Anulado"),
                     });
