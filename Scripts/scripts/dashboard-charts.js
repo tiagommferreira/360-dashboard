@@ -192,6 +192,7 @@ function topProductsChart() {
                 highlight: donutColors[i % donutColors.length],
                 label: products[i].ArtigoDescricao
             });
+            console.log(products[i].ValorVendas);
         }
 
         if (myDoughnutChart != null)
