@@ -18,7 +18,7 @@
     <div class="row">
         <div class="col-lg-3 col-xs-6">
             <!-- small box -->
-            <div class="small-box bg-orange">
+            <div class="small-box bg-green">
                 <div class="inner">
                     <h3>@ViewBag.SalesValue<sup style="font-size: 20px">€</sup></h3>
                     <p>Sales</p>
@@ -31,7 +31,7 @@
         </div><!-- ./col -->
         <div class="col-lg-3 col-xs-6">
             <!-- small box -->
-            <div class="small-box bg-red">
+            <div class="small-box bg-aqua">
                 <div class="inner">
                     <h3>@ViewBag.PurchasesValue<sup style="font-size: 20px">€</sup></h3>
                     <p>Purchases</p>
@@ -44,7 +44,7 @@
         </div><!-- ./col -->
         <div class="col-lg-3 col-xs-6">
             <!-- small box -->
-            <div class="small-box bg-green">
+            <div class="small-box bg-yellow">
                 <div class="inner">
                     <h3>@ViewBag.Caixa<sup style="font-size: 20px">€</sup></h3>
                     <p>Cash Flow</p>
@@ -71,7 +71,7 @@
     </div><!-- /.row -->
     <div class="row">
         <div class="col-lg-6">
-            <h2>Top Products</h2>
+            <h2>Top Products (€)</h2>
             <hr>
             <canvas data-url="/api/Produtos/Top" id="top-products-chart" height="400" width="500"></canvas>
         </div>
@@ -83,6 +83,10 @@
                 <option value="2014">2014</option>
                  <option value="2015">2015</option>
             </select>
+
+            &nbsp;<label style="color:#98E600">Sales</label>
+            &nbsp;<label style="color:#97BBCD">Purchases</label>
+
             <br />
             <canvas data-vendasurl="/api/Vendas/Info" data-comprasurl="/api/Compras/Info" id="transactions-chart" height="400" width="500"></canvas>
         </div>

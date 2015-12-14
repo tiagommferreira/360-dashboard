@@ -187,7 +187,7 @@ function topProductsChart() {
         var i = 0;
         for (; i < products.length; i++) {
             topProdutosData.push({
-                value: products[i].Quantidade,
+                value: products[i].ValorVendas,
                 color: donutColors[i % donutColors.length],
                 highlight: donutColors[i % donutColors.length],
                 label: products[i].ArtigoDescricao
