@@ -48,7 +48,7 @@ var optionsLineChart = {
 
 };
 
-var donutColors = ["#F7464A", "#4D88FF", "#47D147"];
+var donutColors = ["#F7464A", "#4D88FF", "#d33724"];
 var optionsDonutChart = {
     //Boolean - Whether we should show a stroke on each segment
     segmentShowStroke: true,
