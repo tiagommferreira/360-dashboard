@@ -11,7 +11,7 @@ namespace SINF_EXAMPLE_WS.Controllers
     public class ClientesController : ApiController
     {
         //
-        // GET: /Clientes/
+        // GET: /Clientes/ cenas
 
         public IEnumerable<Cliente> Get()
         {
